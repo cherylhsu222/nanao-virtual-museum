@@ -18,4 +18,4 @@ function prefixPublicImages() {
   };
 }
 
-export default defineConfig({ base, plugins: [prefixPublicImages()] });
+export default defineConfig({ base, plugins: [prefixPublicImages()], worker: { format: 'es' } });
