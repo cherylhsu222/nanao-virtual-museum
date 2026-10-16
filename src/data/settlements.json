@@ -1,0 +1,9 @@
+[
+ {"id":"jinyue","name":"金岳","coordinates":[121.77634,24.47093],"labelOffset":[-66,-8],"reference":"金岳文化健康站","source":"https://www.cip.gov.tw/data/bid/202110/T-88473287.pdf?c=637CEFE986B7590A557FE1FD8FD7778E&fn=4113C6B20DDACD37D2D5247C55FDEF86&s=5B66B89B0274F77F"},
+ {"id":"wuta","name":"武塔","coordinates":[121.7767,24.4444],"labelOffset":[51,25],"reference":"武塔聚落地名位置","source":"https://fallingrain.com/world/TW/26/Wuta.html"},
+ {"id":"jinyang","name":"金洋","coordinates":[121.7491,24.42611],"labelOffset":[-54,22],"reference":"金洋國小；原民會部落 GIS 點位表 20220725","source":"https://data.zhupiter.com/oddt/23403326/金洋部落/"},
+ {"id":"nanao","name":"南澳","coordinates":[121.80111,24.46667],"labelOffset":[66,-2],"reference":"南澳國小","source":"https://www.mindat.org/feature-6367860.html"},
+ {"id":"aohua","name":"澳花","coordinates":[121.739059,24.328166],"labelOffset":[43,0],"reference":"澳花國小","source":"https://geographic.org/geographic_names/name.php?c=taiwan&fid=6404&uni=10448650"},
+ {"id":"bihou","name":"碧候","coordinates":[121.78409,24.47558],"labelOffset":[16,-45],"reference":"碧候公園 OSM way 1384278075","source":"https://mapcarta.com/W1384278075"},
+ {"id":"dongyue","name":"東岳","coordinates":[121.83317,24.52142],"labelOffset":[56,-6],"reference":"東澳國小（宜蘭縣南澳鄉東岳村蘇花路三段209號）OSM way 278004383","source":"https://www.openstreetmap.org/way/278004383"}
+]

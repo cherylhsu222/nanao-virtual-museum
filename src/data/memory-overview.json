@@ -1,0 +1,544 @@
+[
+  {
+    "id": "seed-gujumu",
+    "title": "谷久牧 – 段木香菇",
+    "location": "南澳村中正路 22 巷 8-1 號",
+    "info": "在南澳的山林裡，段木香菇的氣味，陪伴著許多家庭長大。林桂珍是南澳段木香菇種植的第三代，這項技術從外公傳給父親，再一路延續到她身上。她從國小開始，就跟著父母上山種菇，山林、木頭與潮濕的菇寮，成了她童年最熟悉的風景。",
+    "coordinates": [
+      121.8052,
+      24.4501
+    ],
+    "image": "/images/memory/gujumu-lin-guizhen.JPG",
+    "period": "2010 年",
+    "sharer": "林桂珍",
+    "category": "產業",
+    "tags": [
+      "段木香菇",
+      "谷久牧",
+      "南澳村"
+    ],
+    "sourceLabel": "田野訪談整理"
+  },
+  {
+    "id": "90c9b20c-a46a-43d8-a6e5-8e8fce9a464d",
+    "title": "比亞豪社",
+    "location": "宜蘭縣南澳鄉碧候村（舊比亞豪社）",
+    "info": "舊碧侯部落，碧侯村尚未遷至平地前的山上故鄉，也是族人回顧遷徙歷程與重建部落記憶的關鍵場域。",
+    "coordinates": [
+      121.544428838465,
+      24.4156635701243
+    ],
+    "image": "/images/memory/photos/比亞豪社（正）.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "48c34a47-aac6-4a27-a092-f5e1ae7d9fd4",
+    "title": "蘇花古道",
+    "location": "宜蘭縣至花蓮縣沿線（蘇花古道）",
+    "info": "牡丹社事件後清廷推動「開山撫番」，羅大春負責開闢蘇花古道",
+    "coordinates": [
+      121.7404,
+      24.3321096017712
+    ],
+    "image": "/images/memory/photos/蘇花.jpeg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "19750371-8752-4d16-abbd-d11992012742",
+    "title": "Ryohen（流興）舊部落",
+    "location": "宜蘭縣南澳鄉金岳村（山區舊流興部落）",
+    "info": "金岳部落舊部落所在地，承載重要文化記憶與歷史。",
+    "coordinates": [
+      121.63216,
+      24.44567
+    ],
+    "image": "/images/memory/photos/Ryohen（流興）舊部落.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "3a4b3f37-5fb0-431d-8003-7080b6c6aef2",
+    "title": "東岳湧泉",
+    "location": "宜蘭縣南澳鄉東岳村蘇花路三段",
+    "info": "位於東岳村的冷泉景點，全年恆溫約攝氏16度，是當地夏季重要的觀光與水資源指標。",
+    "coordinates": [
+      121.8298,
+      24.5249
+    ],
+    "image": "/images/memory/photos/東岳湧泉.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "2fac1f11-a055-4aff-bbd5-ac105c50ef5c",
+    "title": "神秘湖",
+    "location": "宜蘭縣南澳鄉金洋村（高山湖泊，又稱鬼湖）",
+    "info": "金洋村高山湖泊景點，又稱鬼湖。",
+    "coordinates": [
+      121.664,
+      24.366
+    ],
+    "image": "/images/memory/photos/神秘湖.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "a0034560-7541-41d8-aaf4-be6bfd09af3f",
+    "title": "澳花村",
+    "location": "宜蘭縣南澳鄉澳花村",
+    "info": "位於南澳鄉最南端，以澳花瀑布著稱，具備豐富民族植物資源與段木香菇種植傳統，擁有澳花瀑布景觀。為 Rgayung 青年文化傳承團所在地",
+    "coordinates": [
+      121.73976008681,
+      24.422
+    ],
+    "image": "/images/memory/photos/澳花村.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "c4208d04-9350-4843-8b48-5c49c7893d86",
+    "title": "製作陷阱",
+    "location": "272臺灣南澳鄉中正路30巷",
+    "info": "這個是去打獵製作的陷阱。\n這裡面有兩個陷阱，上面的是拿來抓小雞的，下面是拿來抓其他動物。",
+    "coordinates": [
+      121.7463,
+      24.477
+    ],
+    "image": "/images/memory/submissions/1787593608935-cbb735c2.jpg",
+    "period": "年輕的時候",
+    "sharer": "魏桂鎌",
+    "category": "人物",
+    "tags": [
+      "生活"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "714cd996-66ad-4ef8-b562-ea9f0688dc5b",
+    "title": "Kumuyaw（莫瑤社）",
+    "location": "宜蘭縣南澳鄉澳花村（舊莫瑤社部落）",
+    "info": "舊澳花部落群中的代表聚落，莫瑤社族人自山區遷往大濁水河口一帶後，逐漸形成今日澳花村的族群原鄉。",
+    "coordinates": [
+      121.787,
+      24.396
+    ],
+    "image": "/images/memory/photos/莫遙社1.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "2880ef89-ddae-4cc7-b33b-67443f464d88",
+    "title": "金岳長輩表演山地舞",
+    "location": "金岳社區",
+    "info": "金岳社區活動中，部落長輩（右一）與族人一同表演山地舞。",
+    "coordinates": [
+      121.782266269678,
+      24.4753302532905
+    ],
+    "image": "/images/memory/submissions/1787468402823-0485c138.jpg",
+    "period": "2016",
+    "sharer": "南澳文健站",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "66e0b094-75a7-4445-ab2b-107dfc124fcb",
+    "title": "南澳野FUN祭",
+    "location": "宜蘭縣南澳鄉武塔村橫山路36號",
+    "info": "由南澳泰雅族青年許彧（Yougan）結合南澳鄉公所一起推展在地的泰雅原民文化活動",
+    "coordinates": [
+      121.7665563,
+      24.44106464
+    ],
+    "image": "/images/memory/photos/南澳野fun.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "070bc239-0ea2-4675-91e2-fcd7c43460fb",
+    "title": "Rekinos（奎諾斯社）部落",
+    "location": "宜蘭縣南澳鄉金洋村（舊奎諾斯社，和平北溪上游）",
+    "info": "舊金洋部落，位於和平北溪上游山區，金洋國小入山尋根的目的地",
+    "coordinates": [
+      121.5736,
+      24.4084
+    ],
+    "image": "/images/memory/photos/奎諾斯社.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "122f0f22-0be6-44a5-833a-79e8f18d6de0",
+    "title": "大南澳震安宮",
+    "location": "宜蘭縣蘇澳鎮南強里南澳路2之6號",
+    "info": "源於清末漢人移墾初期的土地公小祠，歷經 1924 年擴建與二戰末期美軍空襲損毀，於戰後重建並改奉媽祖為主神",
+    "coordinates": [
+      121.8067142,
+      24.4753302532905
+    ],
+    "image": "/images/memory/photos/temple.JPG",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "85bfeffc-5b2e-4356-a14e-1330e4639907",
+    "title": "澳花瀑布",
+    "location": "宜蘭縣南澳鄉澳花村澳花溪中游",
+    "info": "澳花村重要自然景觀與溯溪場域。",
+    "coordinates": [
+      121.7384,
+      24.3525
+    ],
+    "image": "/images/memory/photos/澳花瀑布1.gif",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "1ef261a8-1001-4575-b236-571b8db16861",
+    "title": "金岳瀑布",
+    "location": "宜蘭縣南澳鄉金岳村鹿皮溪",
+    "info": "金岳村重要自然景觀與戲水地點。",
+    "coordinates": [
+      121.766,
+      24.467
+    ],
+    "image": "/images/memory/photos/金岳部落.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "e319c0c6-f6ff-4e95-b20a-0cb14dc4e398",
+    "title": "武塔泰雅家屋共作假期",
+    "location": "宜蘭縣南澳鄉武塔村",
+    "info": "韋文豪以「共作假期」號召百位跨族群志工，以傳統技術與武塔在地建材打造一棟泰雅家屋",
+    "coordinates": [
+      121.7360973,
+      24.43823633
+    ],
+    "image": "/images/memory/photos/南澳武塔泰雅家屋.jpg",
+    "period": "2016年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "fd856eac-98fe-48e9-b92a-388005816abe",
+    "title": "教會",
+    "location": "宜蘭縣南澳鄉各部落",
+    "info": "原鄉社區活動與光照介入場域之一",
+    "coordinates": [
+      121.787,
+      24.45
+    ],
+    "image": "/images/memory/photos/教會.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "生活",
+    "tags": [
+      "生活"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "3ad779d2-0f63-4607-bd7a-3a91afc92d79",
+    "title": "哈卡巴里斯",
+    "location": "宜蘭縣南澳鄉武塔村深山（末代頭目哈勇故鄉）",
+    "info": "舊武塔部落，末代頭目哈勇帶領族人徒步七日返回的祖靈之地",
+    "coordinates": [
+      121.61455,
+      24.44611
+    ],
+    "image": "/images/memory/photos/哈卡巴里斯.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "ab5e7430-1350-4f05-a6a8-27c724312729",
+    "title": "東岳部落",
+    "location": "宜蘭縣南澳鄉東岳村",
+    "info": "位於東岳村的泰雅族部落，以東岳湧泉、文旦柚以及優質養殖香魚聞名。",
+    "coordinates": [
+      121.827,
+      24.51
+    ],
+    "image": "/images/memory/photos/東岳部落（飛天璇的口袋）.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "c5341294-5bd0-4f70-951d-fd71ff9e412d",
+    "title": "南澳車站",
+    "location": "宜蘭縣蘇澳鎮南強里南澳路2號",
+    "info": "南澳車站於1980設站，為宜蘭縣境內最南邊的一個大站，幾乎所有火車種別皆有停靠南澳車站，車站前矗立著一尊觀音像。雖命名為南澳車站，但實際的地理位置卻是位於蘇澳鎮內的南強里範圍內",
+    "coordinates": [
+      121.8016,
+      24.4637
+    ],
+    "image": "/images/memory/photos/南澳車站1.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "生活",
+    "tags": [
+      "生活"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "daa68247-d439-4b5a-9a55-b82ca235d23f",
+    "title": "部落裡的電影節",
+    "location": "宜蘭縣南澳鄉金洋村金洋路2號",
+    "info": "2025年10月於南澳那山那谷舉辦，結合部落走讀、青年影像創作分享與烤火交流的文化活動。",
+    "coordinates": [
+      121.7493862,
+      24.43683677
+    ],
+    "image": "/images/memory/photos/部落裡的電影節.jpg",
+    "period": "2025年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "a4f3d1ba-56b9-4e17-b871-fdeed99ba2ff",
+    "title": "金洋（Kinyan）",
+    "location": "宜蘭縣南澳鄉金洋村",
+    "info": "南澳鄉金洋村部落地名，為部落走讀活動路線之一。",
+    "coordinates": [
+      121.7484,
+      24.4281
+    ],
+    "image": "/images/memory/photos/金洋（Kinyan）.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "74486bce-abf6-4382-9f4a-4c1a6e605b2b",
+    "title": "《獵與織》重逢半世紀─泰雅族KLESAN群文物返鄉特展",
+    "location": "宜蘭縣南澳鄉武塔村新溪路1號",
+    "info": "展出已失傳的傳統手作；韋文豪與比穗・保羅於假日拿文物圖檔走訪耆老，請他們指認文物並解說脈絡",
+    "coordinates": [
+      121.778711,
+      24.44556133
+    ],
+    "image": "/images/memory/photos/武塔國小.JPG",
+    "period": "2018年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "06671513-ab97-4a3d-88ed-b30d06807c72",
+    "title": "南澳古道",
+    "location": "宜蘭縣南澳鄉（古道沿線）",
+    "info": "南澳重要歷史山徑與文化路線。",
+    "coordinates": [
+      121.752,
+      24.47
+    ],
+    "image": "/images/memory/photos/南澳古道.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "c0859b89-1297-4ab1-9df2-533586eb334a",
+    "title": "金岳村",
+    "location": "宜蘭縣南澳鄉金岳村",
+    "info": "南澳鄉行政區，日治時期由舊流興部落（Ryohen）遷村至現址，為金岳部落所在",
+    "coordinates": [
+      121.7761,
+      24.4704
+    ],
+    "image": "/images/memory/photos/金岳村1.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "1ebf7dc1-c669-4ede-bd13-aa7cd1b5bb15",
+    "title": "溫媽媽的織布工作室",
+    "location": "納來麻谷工作坊",
+    "info": "這間工作室開了將近二十年，從織布教學到手工包製作，承載著溫桂珠一路走來的生活與記憶。\n\n她開始織布，是在五十多歲因心臟病無法繼續務農之後。那時，她不知道自己還能做什麼，女兒便鼓勵她織布。起初織出的布無法變現，她便想起年輕時學過的拼布，嘗試將兩種技法結合，慢慢發展出如今的作品。\n\n她的作品以傳統織布結合拼布技法，傳統結合創新。她仔細地述製作過程，織一個完整的圖騰包，需要整經、理線、繪製組織圖，再一針一針挑出紋路；有些作品光是挑布，就要花上一個月才能完成兩個。純手工製作不僅耗時，也十分傷眼，但她仍堅持保留這份手作的價值。\n\n過去，她曾到南澳國中、大同鄉等地教織布，也曾在部落大學授課。如今，她則在文健站帶著長輩製作包包與零錢包，讓傳統技藝持續在日常中流動。",
+    "coordinates": [
+      121.80313891528,
+      24.4697839903434
+    ],
+    "image": "/images/memory/submissions/1787592499178-87785c3c.jpg",
+    "period": "20年前",
+    "sharer": "溫桂珠",
+    "category": "人物",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "96c7800c-4663-4d06-8954-ec7861e4c9cb",
+    "title": "碧侯村",
+    "location": "宜蘭縣南澳鄉碧候村",
+    "info": "南澳鄉行政村，又稱比亞豪部落，位於南澳北溪旁早期分支定居地，現仍為重要聚落。以泰雅族人為主，擁有豐富自然資源與溫泉",
+    "coordinates": [
+      121.7879,
+      24.4769
+    ],
+    "image": "/images/memory/photos/碧候老照片.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "地景",
+    "tags": [
+      "地景"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "c03cc138-d781-4bb3-a4d7-5e3c250765e2",
+    "title": "南澳香菇野餐節",
+    "location": "宜蘭縣南澳鄉東岳村蘇花路三段209號",
+    "info": "南澳鄉舉辦的在地特色活動，以段木香菇為主題，結合野餐形式推廣地方農產與飲食文化。活動包含香菇料理、市集攤位、體驗活動及表演節目",
+    "coordinates": [
+      121.8329069,
+      24.52165965
+    ],
+    "image": "/images/memory/photos/南澳香菇野餐節.jpg",
+    "period": "2023年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "7c4d5e21-cf08-4731-aa81-c5d2be47d623",
+    "title": "Rgayung文化成長營",
+    "location": "宜蘭縣南澳鄉澳花村和平路9巷11號",
+    "info": "澳花部落青年舉辦的兒少營隊，內容包含狩獵、織布、樂舞等，建立泰雅文化認同",
+    "coordinates": [
+      121.7440337,
+      24.3326527
+    ],
+    "image": "/images/memory/photos/Rgayung青年文化傳承團.jpg",
+    "period": "2025年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  },
+  {
+    "id": "260013aa-2826-4057-b4c7-ea6f23d8b612",
+    "title": "莎韻紀念公園",
+    "location": "宜蘭縣南澳鄉武塔村蘇花路二段133K處（武塔派出所旁）",
+    "info": "女沙韻．哈勇的紀念公園",
+    "coordinates": [
+      121.7789,
+      24.4489
+    ],
+    "image": "/images/memory/photos/莎韻紀念公園.jpg",
+    "period": "2026年",
+    "sharer": "Cheryl",
+    "category": "文化",
+    "tags": [
+      "文化"
+    ],
+    "sourceLabel": "民眾投稿"
+  }
+]

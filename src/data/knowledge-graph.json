@@ -1,0 +1,801 @@
+{
+  "core": {
+    "id": "段木香菇",
+    "node_Group": "產業",
+    "meta_group": "物質文化",
+    "info": "南澳具百年歷史的特色產業，由日本人傳入技術，以天然段木培育，具有高度文化傳承意義。",
+    "start_year": null,
+    "end_year": null,
+    "lon": null,
+    "lat": null,
+    "breakthrough_note": "",
+    "sources": [
+      "竺庭"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "天然林全面禁伐政策",
+      "node_Group": "事件",
+      "meta_group": "事件",
+      "info": "1991年政府實施禁伐政策，導致段木來源受限且價格上漲，迫使大量菇農轉型或進入林班地秘密耕種。",
+      "start_year": 1991,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "台灣世界展望會",
+      "node_Group": "非營利組織",
+      "meta_group": "組織",
+      "info": "長期深耕南澳部落，協助當地菇農收購並推廣乾香菇，是菇農依賴的穩定銷售管道。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "杜英",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "杜英是一種台灣原生常綠喬木，學名 Elaeocarpus decipiens，高可達20-25公尺，常見於低海拔常綠闊葉林。常用作段木香菇栽培的樹種，其木材適合香菇菌絲生長。",
+      "start_year": null,
+      "end_year": null,
+      "lon": 24.43341,
+      "lat": 121.78799,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "谷久牧",
+      "node_Group": "私人企業",
+      "meta_group": "組織",
+      "info": "由林桂珍經營，結合段木香菇產銷與泰雅織布文化，開發泰雅鞋品牌並提供風味料理與文化體驗。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "赤楊",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "赤楊（Alnus formosana）是台灣原生速生闊葉樹種，高可達20-30公尺，常見於河岸濕地、低海拔溪谷及次生林，具固氮能力。在南澳鄉廣泛分布，尤其溪畔及山坡濕潤地帶，與楓香、杜英形成混交林，是當地林下經濟重要樹種。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "宜蘭縣泰雅族原住民林業暨勞動合作社",
+      "node_Group": "非營利組織",
+      "meta_group": "組織",
+      "info": "由高勇偉擔任理事長，致力於媒合部落勞動力與林業資源，並協助段木香菇產銷。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "武塔村",
+      "node_Group": "地點",
+      "meta_group": "地景與聚落",
+      "info": "[雅柔] 位於南澳山區，日治與戰後多次遷村 ; [竺庭] 位於大南澳南溪旁，設有北迴鐵路車站，周邊林地是段木香菇的重要生長環境。",
+      "start_year": null,
+      "end_year": null,
+      "lon": 121.777383375581,
+      "lat": 24.4437639603103,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭",
+        "雅柔"
+      ]
+    },
+    {
+      "id": "花菇",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "花菇是高品質的香菇，乾冷低溫且有風的環境，可產出有裂紋的花菇，其菇傘表面呈現自然裂紋如雪花或菊花瓣狀，質地厚實、硬淨。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "金岳村",
+      "node_Group": "地點",
+      "meta_group": "地景與聚落",
+      "info": "[雅柔] 南澳鄉行政村，日治時期由舊流興部落（Ryohen）遷村至現址，為金岳部落所在 ; [竺庭] 南澳鄉人口最少的村落，以金岳瀑布聞名，維持著傳統的段木香菇栽培技術。",
+      "start_year": null,
+      "end_year": null,
+      "lon": 121.776072952046,
+      "lat": 24.4703902819042,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭",
+        "雅柔"
+      ]
+    },
+    {
+      "id": "金洋村",
+      "node_Group": "地點",
+      "meta_group": "地景與聚落",
+      "info": "[雅柔] KLESAN 群在南澳山區的早期聚落，1960 年代後遷村至現址 ; [竺庭] 南澳鄉段木香菇產量最高的村落，由金洋社等移住組成，自然環境極適合菌絲生長。",
+      "start_year": null,
+      "end_year": null,
+      "lon": 121.748432390423,
+      "lat": 24.4281071646207,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭",
+        "雅柔"
+      ]
+    },
+    {
+      "id": "青剛櫟",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "青剛櫟（Cyclobalanopsis glauca）是台灣原生常綠喬木，高可達20公尺，常見於低中海拔闊葉林。泰雅族稱之為「bwebala」或「ryuk」，具文化意義。南澳鄉泰雅族常用青剛櫟作為段木香菇栽培基材，與台灣赤楊、楓香並列，其木質適合菌絲生長，促進林下經濟發展。",
+      "start_year": null,
+      "end_year": null,
+      "lon": 24.41,
+      "lat": 121.66,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "南澳鄉香菇產銷班第一班",
+      "node_Group": "非營利組織",
+      "meta_group": "組織",
+      "info": "凝聚南澳在地菇農，進行技術交流與共同行銷，並定期舉辦段木香菇評鑑競賽。",
+      "start_year": 2020,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "農業及畜牧業",
+      "node_Group": "產業",
+      "meta_group": "物質文化",
+      "info": "包含水稻、雜糧及果品生產。特色農產有枇杷、文旦、生薑，是部落重要的經濟來源之一。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "徐秋霖",
+      "node_Group": "人物",
+      "meta_group": "人物",
+      "info": "1945-1960年間南澳段木香菇栽培的重要推手，編寫栽培手冊並將技術正式推廣至民間。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "菌種 101",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "南澳段木香菇栽培中使用的香菇菌株編號之一，與426、108等菌株並列比較，屬於影響菌絲生長與出菇表現的重要品系。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "菌種 426",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "香菇菌種代號",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "菌種 505",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "可在22–28°C出菇的品系，能耐寒流、表現穩定，常被南澳這類山區段木香菇栽培拿來使用。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "菌種 農林1號",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "作為常見菌種使用，生長穩定、適應力佳",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "楓香",
+      "node_Group": "物件",
+      "meta_group": "物質文化",
+      "info": "楓香（Liquidambar formosana）是台灣常見落葉喬木，高可達30公尺，葉掌狀五裂，秋葉轉紅，廣布低海拔次生林與河岸。楓香是南澳段木香菇首選樹種之一，常與杜英、青剛櫟搭配栽培，產期可達2-3年。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "農業部農業試驗所",
+      "node_Group": "政府機關",
+      "meta_group": "組織",
+      "info": "負責菌種研發與制定「香菇採收及烘乾分級標準」，是評定乾香菇品質等級的官方依據。",
+      "start_year": null,
+      "end_year": null,
+      "lon": null,
+      "lat": null,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭"
+      ]
+    },
+    {
+      "id": "澳花村",
+      "node_Group": "地點",
+      "meta_group": "地景與聚落",
+      "info": "[雅柔] 南澳鄉靠近花蓮交界的村落，為 Rgayung 青年文化傳承團所在地 ; [竺庭] 位於南澳鄉最南端，以澳花瀑布著稱，具備豐富民族植物資源與段木香菇種植傳統。",
+      "start_year": null,
+      "end_year": null,
+      "lon": 121.739595014929,
+      "lat": 24.3309491887332,
+      "breakthrough_note": "",
+      "sources": [
+        "竺庭",
+        "雅柔"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": "天然林全面禁伐政策",
+      "target": "段木香菇",
+      "label": "負面影響",
+      "meta_relation": "causal",
+      "info": "1991 年禁伐政策後導致段木取得困難，造成產業一度萎縮。",
+      "year": null
+    },
+    {
+      "source": "台灣世界展望會",
+      "target": "段木香菇",
+      "label": "銷售管道",
+      "meta_relation": "其他",
+      "info": "長期深耕南澳部落，是菇農依賴的穩定乾香菇收購管道。",
+      "year": null
+    },
+    {
+      "source": "杜英",
+      "target": "段木香菇",
+      "label": "栽培基質",
+      "meta_relation": "creative",
+      "info": "南澳常用段木樹種，優點為材質耐用、使用壽命長。",
+      "year": null
+    },
+    {
+      "source": "谷久牧",
+      "target": "段木香菇",
+      "label": "品牌關聯",
+      "meta_relation": "其他",
+      "info": "結合香菇產銷與泰雅織布文化，開發在地特色品牌。",
+      "year": null
+    },
+    {
+      "source": "赤楊",
+      "target": "段木香菇",
+      "label": "栽培基質",
+      "meta_relation": "creative",
+      "info": "木質輕且有利菌絲走菌，是菇農喜愛的樹種。",
+      "year": null
+    },
+    {
+      "source": "宜蘭縣泰雅族原住民林業暨勞動合作社",
+      "target": "段木香菇",
+      "label": "產銷推廣",
+      "meta_relation": "其他",
+      "info": "媒合部落勞動力並協助菇農進行段木香菇的收購與產銷。",
+      "year": null
+    },
+    {
+      "source": "武塔村",
+      "target": "段木香菇",
+      "label": "產業區域",
+      "meta_relation": "spatial",
+      "info": "周邊林地為段木香菇的重要生長環境。",
+      "year": null
+    },
+    {
+      "source": "花菇",
+      "target": "段木香菇",
+      "label": "品質型態",
+      "meta_relation": "其他",
+      "info": "於乾冷且有風的特定環境下，菇傘龜裂形成的最高級品。",
+      "year": null
+    },
+    {
+      "source": "金岳村",
+      "target": "段木香菇",
+      "label": "傳統延續",
+      "meta_relation": "causal",
+      "info": "人口密度最低，仍維持傳統段木香菇栽培與農事。",
+      "year": null
+    },
+    {
+      "source": "金洋村",
+      "target": "段木香菇",
+      "label": "核心產地",
+      "meta_relation": "其他",
+      "info": "全鄉段木香菇產量最高且種植戶數最多的村落。",
+      "year": null
+    },
+    {
+      "source": "青剛櫟",
+      "target": "段木香菇",
+      "label": "栽培基質",
+      "meta_relation": "creative",
+      "info": "木質堅硬，雖然生長較慢但產出之香菇厚實耐收。",
+      "year": null
+    },
+    {
+      "source": "南澳鄉香菇產銷班第一班",
+      "target": "段木香菇",
+      "label": "組織合作",
+      "meta_relation": "其他",
+      "info": "凝聚南澳菇農進行技術交流，並共同參與地方品牌行銷。",
+      "year": null
+    },
+    {
+      "source": "段木香菇",
+      "target": "農業及畜牧業",
+      "label": "類別屬性",
+      "meta_relation": "其他",
+      "info": "根據統計年報，段木香菇被歸類於農業中的特用作物項目。",
+      "year": null
+    },
+    {
+      "source": "徐秋霖",
+      "target": "段木香菇",
+      "label": "推廣者",
+      "meta_relation": "其他",
+      "info": "1945-1960 年間編寫栽培手冊，是推動台灣段木香菇栽培的關鍵。",
+      "year": null
+    },
+    {
+      "source": "菌種 101",
+      "target": "段木香菇",
+      "label": "使用菌種",
+      "meta_relation": "creative",
+      "info": "來源資料中提及之特定菌種品系之一。",
+      "year": null
+    },
+    {
+      "source": "菌種 426",
+      "target": "段木香菇",
+      "label": "使用菌種",
+      "meta_relation": "creative",
+      "info": "南澳最受歡迎的四季菇菌種，出菇型態與產量穩定。",
+      "year": null
+    },
+    {
+      "source": "菌種 505",
+      "target": "段木香菇",
+      "label": "使用菌種",
+      "meta_relation": "creative",
+      "info": "菇農常用之夏菇菌種代號，適合較高溫時期生長。",
+      "year": null
+    },
+    {
+      "source": "菌種 農林1號",
+      "target": "段木香菇",
+      "label": "使用菌種",
+      "meta_relation": "creative",
+      "info": "鄉內使用之新興菌種品系，供農民選擇栽培。",
+      "year": null
+    },
+    {
+      "source": "楓香",
+      "target": "段木香菇",
+      "label": "栽培基質",
+      "meta_relation": "creative",
+      "info": "南澳常用栽培樹種之一，其產量表現相對穩定。",
+      "year": null
+    },
+    {
+      "source": "農業部農業試驗所",
+      "target": "段木香菇",
+      "label": "標準制定",
+      "meta_relation": "其他",
+      "info": "負責制定「香菇採收及烘乾分級標準」作為官方評定依據。",
+      "year": null
+    },
+    {
+      "source": "澳花村",
+      "target": "段木香菇",
+      "label": "產業區域",
+      "meta_relation": "spatial",
+      "info": "具備豐富民族植物資源與悠久的香菇種植傳統。",
+      "year": null
+    }
+  ],
+  "groups": {
+    "事件": [
+      {
+        "id": "天然林全面禁伐政策",
+        "node_Group": "事件",
+        "meta_group": "事件",
+        "info": "1991年政府實施禁伐政策，導致段木來源受限且價格上漲，迫使大量菇農轉型或進入林班地秘密耕種。",
+        "start_year": 1991,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      }
+    ],
+    "組織": [
+      {
+        "id": "台灣世界展望會",
+        "node_Group": "非營利組織",
+        "meta_group": "組織",
+        "info": "長期深耕南澳部落，協助當地菇農收購並推廣乾香菇，是菇農依賴的穩定銷售管道。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "谷久牧",
+        "node_Group": "私人企業",
+        "meta_group": "組織",
+        "info": "由林桂珍經營，結合段木香菇產銷與泰雅織布文化，開發泰雅鞋品牌並提供風味料理與文化體驗。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "宜蘭縣泰雅族原住民林業暨勞動合作社",
+        "node_Group": "非營利組織",
+        "meta_group": "組織",
+        "info": "由高勇偉擔任理事長，致力於媒合部落勞動力與林業資源，並協助段木香菇產銷。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "南澳鄉香菇產銷班第一班",
+        "node_Group": "非營利組織",
+        "meta_group": "組織",
+        "info": "凝聚南澳在地菇農，進行技術交流與共同行銷，並定期舉辦段木香菇評鑑競賽。",
+        "start_year": 2020,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "農業部農業試驗所",
+        "node_Group": "政府機關",
+        "meta_group": "組織",
+        "info": "負責菌種研發與制定「香菇採收及烘乾分級標準」，是評定乾香菇品質等級的官方依據。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      }
+    ],
+    "物質文化": [
+      {
+        "id": "杜英",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "杜英是一種台灣原生常綠喬木，學名 Elaeocarpus decipiens，高可達20-25公尺，常見於低海拔常綠闊葉林。常用作段木香菇栽培的樹種，其木材適合香菇菌絲生長。",
+        "start_year": null,
+        "end_year": null,
+        "lon": 24.43341,
+        "lat": 121.78799,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "赤楊",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "赤楊（Alnus formosana）是台灣原生速生闊葉樹種，高可達20-30公尺，常見於河岸濕地、低海拔溪谷及次生林，具固氮能力。在南澳鄉廣泛分布，尤其溪畔及山坡濕潤地帶，與楓香、杜英形成混交林，是當地林下經濟重要樹種。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "花菇",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "花菇是高品質的香菇，乾冷低溫且有風的環境，可產出有裂紋的花菇，其菇傘表面呈現自然裂紋如雪花或菊花瓣狀，質地厚實、硬淨。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "青剛櫟",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "青剛櫟（Cyclobalanopsis glauca）是台灣原生常綠喬木，高可達20公尺，常見於低中海拔闊葉林。泰雅族稱之為「bwebala」或「ryuk」，具文化意義。南澳鄉泰雅族常用青剛櫟作為段木香菇栽培基材，與台灣赤楊、楓香並列，其木質適合菌絲生長，促進林下經濟發展。",
+        "start_year": null,
+        "end_year": null,
+        "lon": 24.41,
+        "lat": 121.66,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "農業及畜牧業",
+        "node_Group": "產業",
+        "meta_group": "物質文化",
+        "info": "包含水稻、雜糧及果品生產。特色農產有枇杷、文旦、生薑，是部落重要的經濟來源之一。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "菌種 101",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "南澳段木香菇栽培中使用的香菇菌株編號之一，與426、108等菌株並列比較，屬於影響菌絲生長與出菇表現的重要品系。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "菌種 426",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "香菇菌種代號",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "菌種 505",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "可在22–28°C出菇的品系，能耐寒流、表現穩定，常被南澳這類山區段木香菇栽培拿來使用。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "菌種 農林1號",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "作為常見菌種使用，生長穩定、適應力佳",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      },
+      {
+        "id": "楓香",
+        "node_Group": "物件",
+        "meta_group": "物質文化",
+        "info": "楓香（Liquidambar formosana）是台灣常見落葉喬木，高可達30公尺，葉掌狀五裂，秋葉轉紅，廣布低海拔次生林與河岸。楓香是南澳段木香菇首選樹種之一，常與杜英、青剛櫟搭配栽培，產期可達2-3年。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      }
+    ],
+    "地景與聚落": [
+      {
+        "id": "武塔村",
+        "node_Group": "地點",
+        "meta_group": "地景與聚落",
+        "info": "[雅柔] 位於南澳山區，日治與戰後多次遷村 ; [竺庭] 位於大南澳南溪旁，設有北迴鐵路車站，周邊林地是段木香菇的重要生長環境。",
+        "start_year": null,
+        "end_year": null,
+        "lon": 121.777383375581,
+        "lat": 24.4437639603103,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭",
+          "雅柔"
+        ]
+      },
+      {
+        "id": "金岳村",
+        "node_Group": "地點",
+        "meta_group": "地景與聚落",
+        "info": "[雅柔] 南澳鄉行政村，日治時期由舊流興部落（Ryohen）遷村至現址，為金岳部落所在 ; [竺庭] 南澳鄉人口最少的村落，以金岳瀑布聞名，維持著傳統的段木香菇栽培技術。",
+        "start_year": null,
+        "end_year": null,
+        "lon": 121.776072952046,
+        "lat": 24.4703902819042,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭",
+          "雅柔"
+        ]
+      },
+      {
+        "id": "金洋村",
+        "node_Group": "地點",
+        "meta_group": "地景與聚落",
+        "info": "[雅柔] KLESAN 群在南澳山區的早期聚落，1960 年代後遷村至現址 ; [竺庭] 南澳鄉段木香菇產量最高的村落，由金洋社等移住組成，自然環境極適合菌絲生長。",
+        "start_year": null,
+        "end_year": null,
+        "lon": 121.748432390423,
+        "lat": 24.4281071646207,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭",
+          "雅柔"
+        ]
+      },
+      {
+        "id": "澳花村",
+        "node_Group": "地點",
+        "meta_group": "地景與聚落",
+        "info": "[雅柔] 南澳鄉靠近花蓮交界的村落，為 Rgayung 青年文化傳承團所在地 ; [竺庭] 位於南澳鄉最南端，以澳花瀑布著稱，具備豐富民族植物資源與段木香菇種植傳統。",
+        "start_year": null,
+        "end_year": null,
+        "lon": 121.739595014929,
+        "lat": 24.3309491887332,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭",
+          "雅柔"
+        ]
+      }
+    ],
+    "人物": [
+      {
+        "id": "徐秋霖",
+        "node_Group": "人物",
+        "meta_group": "人物",
+        "info": "1945-1960年間南澳段木香菇栽培的重要推手，編寫栽培手冊並將技術正式推廣至民間。",
+        "start_year": null,
+        "end_year": null,
+        "lon": null,
+        "lat": null,
+        "breakthrough_note": "",
+        "sources": [
+          "竺庭"
+        ]
+      }
+    ]
+  },
+  "groupOrder": [
+    "物質文化",
+    "地景與聚落",
+    "人物"
+  ]
+}
