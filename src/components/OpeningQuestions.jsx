@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 const choices = [
-  { label: '我第一次認識南澳泰雅族', screen: 0 },
-  { label: '我知道一些，但想更深入了解', screen: 26.2 },
-  { label: '我在這裡生活', screen: 59.2 },
+  { label: '我第一次認識南澳泰雅族', exhibit: '南澳遷徙地圖', tone: 'migration', screen: 0 },
+  { label: '我知道一些，但想更深入了解', exhibit: '南澳知識圖譜', tone: 'graph', screen: 26.2 },
+  { label: '我在這裡生活', exhibit: '南澳記憶圖庫', tone: 'memory', screen: 59.2 },
 ];
 
 export default function OpeningQuestions({ onContinue, onHome }) {
@@ -28,7 +28,7 @@ export default function OpeningQuestions({ onContinue, onHome }) {
         <div className="opening-question-choices" inert={!choicesReady} aria-hidden={!choicesReady}>
           <p>先選一個最接近你的答案</p>
           <div className="opening-question-choice-list">
-            {choices.map(({ label, screen }) => <button key={label} type="button" onClick={() => onContinue(screen)}>{label}</button>)}
+            {choices.map(({ label, exhibit, tone, screen }) => <button key={label} type="button" className={`is-${tone}`} aria-label={`${label}（前往${exhibit}）`} onClick={() => onContinue(screen)}><span className="choice-label">{label}</span><span className="choice-exhibit" aria-hidden="true">前往：{exhibit} →</span></button>)}
           </div>
         </div>
       </div>
