@@ -69,6 +69,7 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
   const stageRef = useRef();
   const mapRef = useRef();
   const photoRef = useRef();
+  const photoCreditRef = useRef();
   const captionsRef = useRef();
   const memoryRef = useRef();
   const featuredRef = useRef();
@@ -302,6 +303,8 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
       mapRef.current.style.opacity = String(memoryProgress > 0 ? 1 : 1 - photoProgress);
       photoRef.current.style.opacity = String(photoProgress);
       photoRef.current.style.transform = `scale(${1.04 - photoProgress * 0.04})`;
+      photoCreditRef.current.style.opacity = String(photoProgress);
+      photoCreditRef.current.style.pointerEvents = photoProgress > 0.5 ? 'auto' : 'none';
       updateStoryCaptions(captionsRef.current, screen);
       if (ready) {
         modern?.update(screen);
@@ -734,5 +737,5 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
     };
   }, []);
 
-  return <main inert={!entered} aria-hidden={entered ? 'false' : 'true'}><section id="chapter-1" ref={sectionRef} className="story" data-selected-settlement={selectedSettlement?.id ?? ''} aria-label="南澳地圖動畫"><div ref={stageRef} className="stage"><div ref={mapRef} className="map" aria-label="南澳地理位置互動地圖" /><img ref={photoRef} className="ruiyan-photo" src="/images/瑞岩部落.jpg" alt="" draggable="false" /><StoryCaptions captionsRef={captionsRef} /><OldSettlementCard image={OLD_SETTLEMENT_IMAGES[selectedSettlement?.id]} settlement={selectedSettlement} open={Boolean(selectedSettlement)} onClose={() => clearSelectionRef.current()} /><ContinuationOverlay overlayRef={continuationRef} onMode={value => modernRef.current?.setView(value)} /><KnowledgeGraphOverlay graphRef={graphRef} /><MemoryMapOverlay overlayRef={memoryRef} /><MemoryFeaturedStories overlayRef={featuredRef} /><ExplorationMapOverlay overlayRef={explorationMapRef} /><MemoryStoryCard memory={selectedMemory} open={Boolean(selectedMemory)} onClose={() => { memoryMarkersRef.current.forEach(({ element }) => element.classList.remove('is-selected')); selectedMemoryRef.current = null; setSelectedMemory(null); }} /></div></section><MemoryContribution standalone /></main>;
+  return <main inert={!entered} aria-hidden={entered ? 'false' : 'true'}><section id="chapter-1" ref={sectionRef} className="story" data-selected-settlement={selectedSettlement?.id ?? ''} aria-label="南澳地圖動畫"><div ref={stageRef} className="stage"><div ref={mapRef} className="map" aria-label="南澳地理位置互動地圖" /><img ref={photoRef} className="ruiyan-photo" src="/images/瑞岩部落.jpg" alt="" draggable="false" /><p ref={photoCreditRef} className="ruiyan-photo-credit">照片：<a href="https://tcmb.culture.tw/zh-tw/detail?indexCode=Culture_Place&amp;id=620185" target="_blank" rel="noopener noreferrer">舊瑞岩</a>／CC BY 3.0 TW／原住民族委員會原住民族文化發展中心 @ 國家文化記憶庫</p><StoryCaptions captionsRef={captionsRef} /><OldSettlementCard image={OLD_SETTLEMENT_IMAGES[selectedSettlement?.id]} settlement={selectedSettlement} open={Boolean(selectedSettlement)} onClose={() => clearSelectionRef.current()} /><ContinuationOverlay overlayRef={continuationRef} onMode={value => modernRef.current?.setView(value)} /><KnowledgeGraphOverlay graphRef={graphRef} /><MemoryMapOverlay overlayRef={memoryRef} /><MemoryFeaturedStories overlayRef={featuredRef} /><ExplorationMapOverlay overlayRef={explorationMapRef} /><MemoryStoryCard memory={selectedMemory} open={Boolean(selectedMemory)} onClose={() => { memoryMarkersRef.current.forEach(({ element }) => element.classList.remove('is-selected')); selectedMemoryRef.current = null; setSelectedMemory(null); }} /></div></section><MemoryContribution standalone /></main>;
 }

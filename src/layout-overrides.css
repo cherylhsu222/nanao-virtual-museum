@@ -1465,6 +1465,29 @@
   will-change: opacity, transform;
 }
 
+.ruiyan-photo-credit {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  z-index: 5;
+  max-width: calc(100% - 32px);
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: right;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ruiyan-photo-credit a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .ruiyan-marker {
   width: 1px;
   height: 1px;
