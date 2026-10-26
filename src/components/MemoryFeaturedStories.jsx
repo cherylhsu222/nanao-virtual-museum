@@ -9,7 +9,7 @@ export default function MemoryFeaturedStories({ overlayRef }) {
       <section className="memory-featured-panel memory-featured-intro">
         <div className="memory-featured-intro-copy">
           <span className="memory-featured-kicker">南澳記憶庫｜精選故事</span>
-          <h2>在這些記憶裡，<br />我們挑了幾段故事，<br />一起走近看看。</h2>
+          <h2>我們挑了幾段故事，<br />邀請你一起走進他們的生活</h2>
           <p>向下滑動，繼續閱讀 →</p>
         </div>
       </section>
@@ -36,7 +36,7 @@ export default function MemoryFeaturedStories({ overlayRef }) {
         <div className="memory-featured-outro-copy">
           <span className="memory-featured-kicker">南澳記憶庫</span>
           <h2>這些只是南澳記憶庫裡的一小部分</h2>
-          <p>更多人的照片與故事，<br />仍散落在南澳不同角落。</p>
+          <p>更多人的照片與故事，<br />仍散落在南澳不同角落</p>
           <a href="https://cherylhsu222.github.io/memory-map-cowork/" target="_blank" rel="noreferrer">探索完整南澳記憶庫 →</a>
           <a className="memory-contribution-shortcut" href="#memory-contribution">留下你的南澳記憶 ↓</a>
         </div>

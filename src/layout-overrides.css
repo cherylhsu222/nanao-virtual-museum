@@ -71,7 +71,7 @@
 .knowledge-node small { font: 10px/1.3 sans-serif; opacity: .55; }
 .knowledge-node.node-core { z-index: 2; }
 .knowledge-node.node-core { transform: translate(-50%, -24%) scale(calc(.76 + var(--graph-progress, 0) * .24)); }
-.knowledge-node.node-core i { width: 18px; height: 18px; background: #b98a57; box-shadow: 0 0 0 7px rgba(185,138,87,.18); }
+.knowledge-node.node-core i { width: 40px; height: 40px; margin: -15px 0 -1px; border-radius: 0; background: url('/images/shiitake-log.png') center / contain no-repeat; box-shadow: none; }
 .knowledge-node.node-core span { font: 500 20px/1.3 'Noto Serif TC',serif; }
 .knowledge-caption { position: absolute; left: clamp(28px, 3vw, 40px); bottom: clamp(72px, 11vh, 112px); z-index: 3; text-shadow: 0 0 6px #eef2ec, 0 0 14px #eef2ec, 0 0 24px #eef2ec; width: min(520px, calc(100vw - 56px)); max-width: 520px; color: #435348; font: clamp(18px, 1.55vw, 22px)/1.8 'Noto Serif TC',serif; }
 .knowledge-caption p { display: none; margin: 0; }
@@ -405,6 +405,7 @@
 }
 .memory-featured-outro-copy { max-width: 720px; }
 .memory-featured-outro h2 { font-size: clamp(32px, 4.4vw, 60px); }
+.memory-featured-intro h2 { font-size: clamp(28px, 4.4vw, 56px); }
 .memory-featured-outro p {
   margin: 28px 0 0;
   color: #536358;
@@ -1346,7 +1347,7 @@
 .knowledge-graph[data-stage="summary"] .knowledge-node:not(.node-core) i { transform: scale(1.18); }
 .knowledge-graph[data-stage="summary"] .knowledge-node.node-core { opacity: 1 !important; transform: translate(-50%, -24%) scale(1); }
 .knowledge-graph[data-stage="summary"] .knowledge-node.node-core { transform: translate(-50%, -24%) scale(1.15); }
-.knowledge-graph[data-stage="summary"] .knowledge-node.node-core i { width: 27px; height: 27px; box-shadow: 0 0 0 10px rgba(185,138,87,.2); }
+.knowledge-graph[data-stage="summary"] .knowledge-node.node-core i { width: 54px; height: 54px; margin: -19px 0 -2px; }
 .knowledge-graph[data-stage="summary"] .knowledge-node.node-core span { font-size: 25px; font-weight: 600; letter-spacing: .03em; }
 .knowledge-graph[data-stage="summary"] .knowledge-node.node-core small { font-size: 12px; }
 .knowledge-graph[data-stage="summary"] .knowledge-node.node-core small { display: none; }

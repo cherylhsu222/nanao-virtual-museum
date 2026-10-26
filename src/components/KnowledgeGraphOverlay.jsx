@@ -137,17 +137,17 @@ const placeDescriptions = {
       <i /> <span>{n.id}</span><small>{peopleIds.includes(n.id) ? '菇農' : n.type}</small>
     </button>)}
     <div className="graph-intro" aria-live="polite">
-      <p className="graph-intro-lead"><span className="graph-intro-line">了解了南澳泰雅族的遷徙與聚落之後，</span><br /><span className="graph-intro-line">接下來，我們從一項貼近生活的產業出發，</span><br /><span className="graph-intro-line">看看南澳的人、地方與生活是如何彼此連結的。</span></p>
-      <p className="graph-intro-anchor">其中，最具代表性的產業之一，<br />就是 <strong>段木香菇</strong>。</p>
+      <p className="graph-intro-lead"><span className="graph-intro-line">了解了南澳泰雅族的遷徙與聚落之後，</span><br /><span className="graph-intro-line">接下來，我們從一項貼近生活的產業出發，</span><br /><span className="graph-intro-line">看看南澳的人、地方與生活是如何彼此連結的</span></p>
+      <p className="graph-intro-anchor">其中，最具代表性的產業之一，<br />就是 <strong>段木香菇</strong></p>
     </div>
     <div className="graph-layer-label">第一層｜木材</div>
     <div className="graph-place-layer-label">第二層｜聚落</div>
     <div className="graph-people-layer-label">第三層｜菇農</div>
     <div className="graph-policy-layer-label">第四層｜政策</div>
     <div className="graph-organization-layer-label">第五層｜組織</div>
-    <p className="graph-people-caption">段木香菇的背後，是一群長年在南澳耕作的人。</p>
-    <p className="graph-summary-caption">段木香菇，只是理解南澳的一個入口。<br />在它背後，還有更多人、地方與生活之間的連結。<br />想看更多，可以進入完整的知識圖譜探索。</p>
-    <div className="knowledge-caption"><p className="caption-materials">我們先從木材開始。<br />一朵香菇的形成，得先從適合培養的段木談起。</p><p className="caption-places">香菇不只生長在段木上，<br />也扎根在南澳不同聚落的生活裡。</p><p className="caption-people" aria-hidden="true" /><p className="caption-policy">段木香菇的發展，也受到政策環境影響。<br />從森林利用到產業推動，政策也會改變這項產業的條件。</p><p className="caption-organization">從地方政府、民間團體到評鑑與銷售系統，這項產業並不是單獨運作的。</p></div>
+    <p className="graph-people-caption">從段木到一朵香菇<br />背後有著一群長年在南澳耕作的菇農</p>
+    <p className="graph-summary-caption">段木香菇，只是理解南澳的一個入口<br />在它背後，還有更多人、地方與生活之間的連結<br />想看更多，可以進入完整的知識圖譜探索</p>
+    <div className="knowledge-caption"><p className="caption-materials">種植段木香菇<br />得先找到適合它生長的木材</p><p className="caption-places">香菇不只生長在段木上<br />也與南澳不同聚落的生活緊密相連</p><p className="caption-people" aria-hidden="true" /><p className="caption-policy">隨著政策的推動與產業的發展<br />段木香菇逐漸成為南澳的地方特色</p><p className="caption-organization">一朵香菇從種植到走向市場<br />背後還有著南澳社群的支持</p></div>
     <a className="graph-summary-cta" href={fullGraphUrl} target="_blank" rel="noreferrer"><small>想看更多南澳的關係？</small><span>進入知識圖譜探索 →</span></a>
     <div className="knowledge-card" aria-hidden={!selected}>{selected ? <><button type="button" onClick={() => setSelected(null)} aria-label="關閉節點資訊">×</button><b>{selected}</b><small>{node(selected).type === 'core' ? 'core' : <>{peopleIds.includes(selected) ? '菇農｜' : `${node(selected).type}｜`}{selectedEdge?.label ?? ''}</>}</small>{peopleIds.includes(selected) ? <small>所在聚落｜{peoplePlace[selected]}</small> : null}<p>{placeDescriptions[selected] ?? node(selected).info}</p></> : null}</div>
   </div>;

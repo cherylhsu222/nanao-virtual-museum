@@ -30,7 +30,6 @@ export default function ExplorationMapOverlay({ overlayRef }) {
     <div className="exploration-map-copy">
       <span className="exploration-map-kicker">南澳探索地圖</span>
       <h1>接下來，換你自己探索</h1>
-      <p>沿著山路和海岸，找到你想走近的南澳故事。</p>
     </div>
 
     <a className="exploration-contribution-link" href="#memory-contribution">也想留下一段故事？前往投稿 ↓</a>
