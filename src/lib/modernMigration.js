@@ -123,8 +123,8 @@ export function createModernMigration(map, overlay, refreshOld) {
       // The migration question belongs to the handoff scene only. Remove the
       // whole transition layer once the later exploration map takes over so
       // its large type cannot linger over the final map.
-      overlay.style.display = screen > 26 ? 'none' : '';
-      explorationOverview = screen > 26;
+      overlay.style.display = screen > 24 ? 'none' : '';
+      explorationOverview = screen > 24;
       state = next; draw();
     },
     destroy() { nodes.forEach(n => n.marker.remove()); },

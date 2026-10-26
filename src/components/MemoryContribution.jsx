@@ -52,7 +52,7 @@ export default function MemoryContribution({ overlayRef, standalone = false }) {
       </section> : <>
         <section className="memory-contribution-invitation">
           <span className="memory-contribution-kicker">留下你的南澳記憶</span>
-          <h1>記憶不只被收藏，<br />也可以繼續被留下。</h1>
+          <h1>記憶不只被收藏<br />也可以繼續被留下</h1>
           <p>如果你也有一段關於南澳的故事，<br />願意把它留在這裡嗎？</p>
           <p className="memory-contribution-note">看完別人的記憶，也留下一點自己的。</p>
         </section>

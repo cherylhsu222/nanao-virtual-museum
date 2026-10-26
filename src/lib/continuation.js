@@ -4,7 +4,7 @@ import { smooth } from './scene.js';
 // Two extra hold screens keep the featured-story outro readable before the
 // final exploration map. Four final screens let the map fade in and hold as
 // a free-choice ending.
-export const TOTAL_SCREENS = 75;
+export const TOTAL_SCREENS = 74;
 export function continuationAt(screen) {
   const active = screen > 19;
   // The handoff is a compact two-screen beat. All transition layers derive
