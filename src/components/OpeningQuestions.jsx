@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 const choices = [
   { label: '我第一次認識南澳泰雅族', exhibit: '南澳遷徙地圖', tone: 'migration', screen: 0 },
   { label: '我知道一些，但想更深入了解', exhibit: '南澳知識圖譜', tone: 'graph', screen: 24.2 },
-  { label: '我在這裡生活', exhibit: '南澳記憶圖庫', tone: 'memory', screen: 57.2 },
+  { label: '我在這裡生活', exhibit: '南澳記憶圖庫', tone: 'memory', screen: 55.2 },
 ];
 
 export default function OpeningQuestions({ onContinue, onHome }) {

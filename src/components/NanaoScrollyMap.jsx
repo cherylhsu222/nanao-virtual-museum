@@ -75,6 +75,7 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
   const memoryRef = useRef();
   const featuredRef = useRef();
   const explorationMapRef = useRef();
+  const scrollCueRef = useRef();
   const routeMarkersRef = useRef([]);
   const callbacks = useRef({ onComplete, onProgress, onOldSettlementSelect });
   callbacks.current = { onComplete, onProgress, onOldSettlementSelect };
@@ -192,21 +193,23 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
       // story ends at the migration-to-question prelude; the graph overlay
       // remains mounted for the later milestone but is not entered yet.
       // 5-3 begins after the transition hold and reveals only materials.
-      const graphProgress = Math.max(0, Math.min(1, (screen - 24) / 13));
+      // The graph timeline starts two screens "early" so the intro lead only
+      // holds for about one scroll step before the 段木香菇 anchor appears.
+      const graphProgress = screen < 24 ? 0 : Math.max(0, Math.min(1, (screen - 22) / 13));
       // Hold one full scroll step after 澳花村 has completed. The people layer
       // occupies exactly two scroll steps, then hands off directly to policy.
-      const peopleProgress = Math.max(0, Math.min(1, (screen - 38) / 2));
-      const policyProgress = Math.max(0, Math.min(1, (screen - 40) / 2));
-      const organizationProgress = Math.max(0, Math.min(1, (screen - 44) / 5));
-      const summaryProgress = Math.max(0, Math.min(1, (screen - 50) / 3));
-      const memoryProgress = Math.max(0, Math.min(1, (screen - 53) / 8));
+      const peopleProgress = Math.max(0, Math.min(1, (screen - 36) / 2));
+      const policyProgress = Math.max(0, Math.min(1, (screen - 38) / 2));
+      const organizationProgress = Math.max(0, Math.min(1, (screen - 42) / 5));
+      const summaryProgress = Math.max(0, Math.min(1, (screen - 48) / 3));
+      const memoryProgress = Math.max(0, Math.min(1, (screen - 51) / 8));
       // Featured stories hold on the intro panel for one screen before the
       // track starts sliding toward the first story.
-      const featuredProgress = Math.max(0, Math.min(1, (screen - 61) / 7));
-      const featuredTrackProgress = Math.max(0, Math.min(1, (screen - 62) / 6));
+      const featuredProgress = Math.max(0, Math.min(1, (screen - 59) / 7));
+      const featuredTrackProgress = Math.max(0, Math.min(1, (screen - 60) / 6));
       // Hold the featured-story outro for two full screens, then hand off
       // directly to the final exploration map.
-      const explorationMapProgress = Math.max(0, Math.min(1, (screen - 70) / 4));
+      const explorationMapProgress = Math.max(0, Math.min(1, (screen - 68) / 4));
       if (memoryProgress <= .001 && selectedMemoryRef.current) {
         selectedMemoryRef.current = null;
         setSelectedMemory(null);
@@ -251,7 +254,7 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
         graphRef.current.style.setProperty('--policy-progress', policyProgress);
         graphRef.current.style.setProperty('--organization-progress', organizationProgress);
         graphRef.current.style.setProperty('--summary-progress', summaryProgress);
-        graphRef.current.dataset.stage = screen >= 50 ? 'summary' : screen >= 44 ? 'organizations' : screen >= 40 ? 'policy' : screen >= 38 ? 'people' : graphProgress < .25 ? 'intro' : graphProgress < .5 ? 'focus' : graphProgress < .68 ? 'core' : graphProgress < .80 ? 'materials' : 'places';
+        graphRef.current.dataset.stage = screen >= 48 ? 'summary' : screen >= 42 ? 'organizations' : screen >= 38 ? 'policy' : screen >= 36 ? 'people' : graphProgress < .25 ? 'intro' : graphProgress < .5 ? 'focus' : graphProgress < .68 ? 'core' : graphProgress < .80 ? 'materials' : 'places';
       }
       if (memoryRef.current) {
         const overviewFade = featuredProgress > .001 ? 1 - smooth(featuredProgress / .18) : 1;
@@ -310,6 +313,12 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
       photoCreditRef.current.style.opacity = String(photoProgress);
       photoCreditRef.current.style.pointerEvents = photoProgress > 0.5 ? 'auto' : 'none';
       updateStoryCaptions(captionsRef.current, screen);
+      if (scrollCueRef.current) {
+        // Opening hint only: fade it out as soon as the reader starts scrolling.
+        const cueOpacity = 1 - smooth(screen / .35);
+        scrollCueRef.current.style.opacity = String(cueOpacity);
+        scrollCueRef.current.style.visibility = cueOpacity > .01 ? 'visible' : 'hidden';
+      }
       if (ready) {
         modern?.update(screen);
         // Scene-scoped text lifecycles. These are deliberately applied after
@@ -336,6 +345,9 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
             cta.style.opacity = visible ? '1' : '0';
             cta.style.pointerEvents = visible ? 'auto' : 'none';
             cta.setAttribute('aria-hidden', String(!visible));
+            // modernMigration marks the CTA inert while its own fade is below
+            // .95; this scene keeps it fully shown, so keep it clickable too.
+            cta.inert = !visible;
           }
           if (question) {
             const visible = screen >= 24 && screen <= 26;
@@ -741,5 +753,5 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
     };
   }, []);
 
-  return <main inert={!entered} aria-hidden={entered ? 'false' : 'true'}><section id="chapter-1" ref={sectionRef} className="story" data-selected-settlement={selectedSettlement?.id ?? ''} aria-label="南澳地圖動畫"><div ref={stageRef} className="stage"><div ref={mapRef} className="map" aria-label="南澳地理位置互動地圖" /><img ref={photoRef} className="ruiyan-photo" src="/images/瑞岩部落.jpg" alt="" draggable="false" /><p ref={photoCreditRef} className="ruiyan-photo-credit">照片：<a href="https://tcmb.culture.tw/zh-tw/detail?indexCode=Culture_Place&amp;id=620185" target="_blank" rel="noopener noreferrer">舊瑞岩</a>／CC BY 3.0 TW／原住民族委員會原住民族文化發展中心 @ 國家文化記憶庫</p><StoryCaptions captionsRef={captionsRef} /><OldSettlementCard image={OLD_SETTLEMENT_IMAGES[selectedSettlement?.id]} settlement={selectedSettlement} open={Boolean(selectedSettlement)} onClose={() => clearSelectionRef.current()} /><ContinuationOverlay overlayRef={continuationRef} onMode={value => modernRef.current?.setView(value)} /><KnowledgeGraphOverlay graphRef={graphRef} /><MemoryMapOverlay overlayRef={memoryRef} /><MemoryFeaturedStories overlayRef={featuredRef} /><ExplorationMapOverlay overlayRef={explorationMapRef} /><MemoryStoryCard memory={selectedMemory} open={Boolean(selectedMemory)} onClose={() => { memoryMarkersRef.current.forEach(({ element }) => element.classList.remove('is-selected')); selectedMemoryRef.current = null; setSelectedMemory(null); }} /></div></section><MemoryContribution standalone /><FeedbackSurvey /></main>;
+  return <main inert={!entered} aria-hidden={entered ? 'false' : 'true'}><section id="chapter-1" ref={sectionRef} className="story" data-selected-settlement={selectedSettlement?.id ?? ''} aria-label="南澳地圖動畫"><div ref={stageRef} className="stage"><div ref={mapRef} className="map" aria-label="南澳地理位置互動地圖" /><img ref={photoRef} className="ruiyan-photo" src="/images/瑞岩部落.jpg" alt="" draggable="false" /><p ref={photoCreditRef} className="ruiyan-photo-credit">照片：<a href="https://tcmb.culture.tw/zh-tw/detail?indexCode=Culture_Place&amp;id=620185" target="_blank" rel="noopener noreferrer">舊瑞岩</a>／CC BY 3.0 TW／原住民族委員會原住民族文化發展中心 @ 國家文化記憶庫</p><StoryCaptions captionsRef={captionsRef} /><p ref={scrollCueRef} className="scroll-cue" aria-hidden="true">往下滑，探索更多故事<span>↓</span></p><OldSettlementCard image={OLD_SETTLEMENT_IMAGES[selectedSettlement?.id]} settlement={selectedSettlement} open={Boolean(selectedSettlement)} onClose={() => clearSelectionRef.current()} /><ContinuationOverlay overlayRef={continuationRef} onMode={value => modernRef.current?.setView(value)} /><KnowledgeGraphOverlay graphRef={graphRef} /><MemoryMapOverlay overlayRef={memoryRef} /><MemoryFeaturedStories overlayRef={featuredRef} /><ExplorationMapOverlay overlayRef={explorationMapRef} /><MemoryStoryCard memory={selectedMemory} open={Boolean(selectedMemory)} onClose={() => { memoryMarkersRef.current.forEach(({ element }) => element.classList.remove('is-selected')); selectedMemoryRef.current = null; setSelectedMemory(null); }} /></div></section><MemoryContribution standalone /><FeedbackSurvey /></main>;
 }
