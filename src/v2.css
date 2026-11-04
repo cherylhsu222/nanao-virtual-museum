@@ -392,15 +392,3 @@ html.click-locked,
 html.click-locked body { overflow: hidden; }
 .step-nav-button.is-previous:disabled { opacity: .3; }
 
-/* 點擊版標記：跟捲動版做區別 */
-.home-hero-version {
-  display: inline-block;
-  margin-left: 10px;
-  padding: 1px 9px;
-  border-radius: 999px;
-  border: 1px solid rgba(67,83,72,.35);
-  font: 600 12px/1.6 'Noto Sans TC', 'PingFang TC', sans-serif;
-  font-style: normal;
-  letter-spacing: .08em;
-  vertical-align: 2px;
-}

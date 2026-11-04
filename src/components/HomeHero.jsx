@@ -24,7 +24,7 @@ export default function HomeHero({ onEnterComplete }) {
       <div className="home-hero-shade" aria-hidden="true" />
       <div className="home-hero-portal">
         <div className="home-hero-brand" aria-label="南澳虛擬博物館">
-          <span>南澳虛擬博物館<em className="home-hero-version">點擊版</em></span>
+          <span>南澳虛擬博物館</span>
           <small>NAN’AO · A LIVING LAND</small>
         </div>
         <div className="home-hero-copy">
