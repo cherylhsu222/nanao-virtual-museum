@@ -1,5 +1,10 @@
 name: Deploy to GitHub Pages
 
+# 網站同時放兩個版本：
+#   /nanao-virtual-museum/        ← main 分支（捲動版）
+#   /nanao-virtual-museum/click/  ← click 分支（點擊版）
+# 只從 main 部署（github-pages 環境只允許 main）。每次部署都會順便抓
+# click 分支最新內容建置到 /click/；只更新 click 時，手動重跑這個流程即可。
 on:
   push:
     branches: [main]
@@ -17,8 +22,16 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+      VITE_SUPABASE_STORAGE_BUCKET: ${{ vars.VITE_SUPABASE_STORAGE_BUCKET }}
+      VITE_MEMORY_SUBMISSIONS_TABLE: ${{ vars.VITE_MEMORY_SUBMISSIONS_TABLE }}
     steps:
+      # 捲動版（main）放在網站根目錄
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -27,10 +40,22 @@ jobs:
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
-          VITE_SUPABASE_STORAGE_BUCKET: ${{ vars.VITE_SUPABASE_STORAGE_BUCKET }}
-          VITE_MEMORY_SUBMISSIONS_TABLE: ${{ vars.VITE_MEMORY_SUBMISSIONS_TABLE }}
+
+      # 點擊版（click）放在 /click/ 底下
+      - uses: actions/checkout@v4
+        with:
+          ref: click
+          path: click-src
+      - name: Build click version
+        working-directory: click-src
+        run: |
+          npm ci
+          npm run build
+          mkdir -p ../dist/click
+          cp -R dist/. ../dist/click/
+        env:
+          BASE_PATH: /${{ github.event.repository.name }}/click/
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
