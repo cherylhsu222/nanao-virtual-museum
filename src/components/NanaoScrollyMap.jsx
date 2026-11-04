@@ -4,8 +4,7 @@ import * as maplibregl from 'maplibre-gl';
 // a plain ?url copy leaves behind (the map stays blank in production builds).
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { scenes, storySettings } from '../config/scenes.js';
+import { scenes } from '../config/scenes.js';
 import { mapStyle } from '../config/mapStyle.js';
 import { sampleScene, settlementAlpha, smooth } from '../lib/scene.js';
 import { createOutsideMask } from '../lib/geo.js';
@@ -33,7 +32,7 @@ import { memoryNodes, DEFAULT_MEMORY_TITLE } from '../data/memoryNodes.js';
 import ExplorationMapOverlay from './ExplorationMapOverlay.jsx';
 import FeedbackSurvey from './FeedbackSurvey.jsx';
 import GestureHint from './GestureHint.jsx';
-import { createStepNavigation } from '../lib/stepNavigation.js';
+import { createClickNavigation } from '../lib/clickNavigation.js';
 
 const oldSettlements = prepareOldSettlements(places);
 
@@ -45,7 +44,6 @@ const MEMORY_EAST_PENALTY = 2.4;
 const memoryCardReserve = () => (window.innerWidth <= 700 ? 0 : Math.min(440, window.innerWidth * .34) + 56);
 const memoryCoreNodes = memoryNodes.filter(memory => memory.coordinates[0] >= 121.5 && memory.coordinates[1] >= 24.3);
 
-gsap.registerPlugin(ScrollTrigger);
 maplibregl.setWorkerUrl(maplibreWorkerUrl);
 
 const nanao = JSON.parse(nanaoRaw);
@@ -81,30 +79,32 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
   const scrollCueRef = useRef();
   const routeMarkersRef = useRef([]);
   const stepNavRef = useRef(null);
-  const [stepNav, setStepNav] = useState({ visible: false, index: -1, total: 0 });
+  const [stepNav, setStepNav] = useState({ index: 0, total: 0, inStory: true });
   const [entryCue, setEntryCue] = useState(false);
   const callbacks = useRef({ onComplete, onProgress, onOldSettlementSelect });
   callbacks.current = { onComplete, onProgress, onOldSettlementSelect };
 
   useLayoutEffect(() => {
     if (!entered) return undefined;
+    document.documentElement.dataset.entered = 'true';
     const frame = window.requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
       jumpToScreenRef.current(entryScreen);
-      stepNavRef.current?.report();
-      // 從問答頁直接跳進知識圖譜或記憶庫時，提示可以往下滑。
+      // 從問答頁直接跳進知識圖譜或記憶庫時，提示怎麼往下走。
       setEntryCue(entryScreen > 0);
     });
-    return () => window.cancelAnimationFrame(frame);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      document.documentElement.dataset.entered = 'false';
+    };
   }, [entered, entryScreen]);
 
+  // 觀眾一換頁，入口提示就收起來
+  const entryCueIndexRef = useRef(null);
   useEffect(() => {
-    if (!entryCue) return undefined;
-    const startY = window.scrollY;
-    const hide = () => { if (Math.abs(window.scrollY - startY) > 30) setEntryCue(false); };
-    window.addEventListener('scroll', hide, { passive: true });
-    return () => window.removeEventListener('scroll', hide);
-  }, [entryCue]);
+    if (!entryCue) { entryCueIndexRef.current = null; return; }
+    if (entryCueIndexRef.current === null) entryCueIndexRef.current = stepNav.index;
+    else if (stepNav.index !== entryCueIndexRef.current) setEntryCue(false);
+  }, [entryCue, stepNav.index]);
 
   useLayoutEffect(() => {
     let map;
@@ -156,7 +156,6 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
     const migrationCameraB = { center: [121.52, 24.455], zoom: 9.45 };
     const migrationCameraC = { center: [121.61, 24.45], zoom: 10.9 };
     let sizeCorrection = 0;
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function layoutMemoryMarkers() {
       if (!map || !memoryMarkers.length) return;
@@ -357,8 +356,8 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
       photoCreditRef.current.style.pointerEvents = photoProgress > 0.5 ? 'auto' : 'none';
       updateStoryCaptions(captionsRef.current, screen);
       if (scrollCueRef.current) {
-        // Opening hint only: fade it out as soon as the reader starts scrolling.
-        const cueOpacity = 1 - smooth(screen / .35);
+        // Opening hint only: shown on the first step, gone after the first click.
+        const cueOpacity = 1 - smooth((screen - .6) / .3);
         scrollCueRef.current.style.opacity = String(cueOpacity);
         scrollCueRef.current.style.visibility = cueOpacity > .01 ? 'visible' : 'hidden';
       }
@@ -763,37 +762,19 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
       console.error('Map initialization failed', error);
     }
 
-    const tween = gsap.to(proxy, {
-      progress: 1,
-      ease: 'none',
-      onUpdate: render,
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: () => `+=${window.innerHeight * TOTAL_SCREENS}`,
-        pin: stageRef.current,
-        scrub: reduced ? true : storySettings.scrub,
-        invalidateOnRefresh: true,
-        onRefresh: resize,
-      },
-    });
-    jumpToScreenRef.current = screen => {
-      const trigger = tween.scrollTrigger;
-      const progress = Math.max(0, Math.min(1, screen / TOTAL_SCREENS));
-      // Jump directly: do not scrub through all the skipped chapters.
-      window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * progress, behavior: 'instant' });
-      ScrollTrigger.update();
-      trigger.getTween()?.progress?.(1);
-      tween.progress(progress);
+    // 點擊版：不用捲動推進，改由「上一步／下一步」把時間軸播放到下一個停點。
+    const setScreen = screen => {
+      proxy.progress = Math.max(0, Math.min(1, screen / TOTAL_SCREENS));
       render();
     };
-    const screenToY = screen => {
-      const trigger = tween.scrollTrigger;
-      return trigger.start + (trigger.end - trigger.start) * Math.max(0, Math.min(1, screen / TOTAL_SCREENS));
-    };
-    const stepNavigation = createStepNavigation({ screenToY, onChange: setStepNav });
-    stepNavRef.current = stepNavigation;
-    if (import.meta.env.DEV) window.__nanaoJump = screen => jumpToScreenRef.current(screen);
+    const clickNavigation = createClickNavigation({
+      getScreen: () => proxy.progress * TOTAL_SCREENS,
+      setScreen,
+      onChange: setStepNav,
+    });
+    stepNavRef.current = clickNavigation;
+    jumpToScreenRef.current = screen => clickNavigation.enterAt(screen);
+    if (import.meta.env.DEV) window.__nanaoJump = setScreen;
     const observer = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(resize); });
     observer.observe(mapRef.current);
     render();
@@ -801,10 +782,8 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
       disposed = true;
       cancelAnimationFrame(raf);
       observer.disconnect();
-      stepNavigation.destroy();
+      clickNavigation.destroy();
       stepNavRef.current = null;
-      tween.scrollTrigger?.kill();
-      tween.kill();
       clearTimeout(mapTimer);
       markers.forEach(marker => marker.remove());
       routeMarkers.forEach(marker => marker.remove());
@@ -821,5 +800,5 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
     };
   }, []);
 
-  return <main inert={!entered} aria-hidden={entered ? 'false' : 'true'}><section id="chapter-1" ref={sectionRef} className="story" data-selected-settlement={selectedSettlement?.id ?? ''} aria-label="南澳地圖動畫"><div ref={stageRef} className="stage"><div ref={mapRef} className="map" aria-label="南澳地理位置互動地圖" /><img ref={photoRef} className="ruiyan-photo" src="/images/瑞岩部落.jpg" alt="" draggable="false" /><p ref={photoCreditRef} className="ruiyan-photo-credit">照片：<a href="https://tcmb.culture.tw/zh-tw/detail?indexCode=Culture_Place&amp;id=620185" target="_blank" rel="noopener noreferrer">舊瑞岩</a>／CC BY 3.0 TW／原住民族委員會原住民族文化發展中心 @ 國家文化記憶庫</p><StoryCaptions captionsRef={captionsRef} /><p ref={scrollCueRef} className="scroll-cue" aria-hidden="true"><GestureHint type="scroll">往下捲動，探索更多故事</GestureHint></p><OldSettlementCard image={OLD_SETTLEMENT_IMAGES[selectedSettlement?.id]} settlement={selectedSettlement} open={Boolean(selectedSettlement)} onClose={() => clearSelectionRef.current()} /><ContinuationOverlay overlayRef={continuationRef} onMode={value => modernRef.current?.setView(value)} /><KnowledgeGraphOverlay graphRef={graphRef} /><MemoryMapOverlay overlayRef={memoryRef} /><MemoryFeaturedStories overlayRef={featuredRef} /><ExplorationMapOverlay overlayRef={explorationMapRef} /><MemoryStoryCard memory={selectedMemory} open={Boolean(selectedMemory)} onClose={() => { memoryMarkersRef.current.forEach(({ element }) => element.classList.remove('is-selected')); selectedMemoryRef.current = null; setSelectedMemory(null); }} /></div></section><p className={`entry-cue${entryCue ? ' is-visible' : ''}`} aria-hidden="true"><GestureHint type="scroll">往下捲動，或按右下角的「下一步」</GestureHint></p><nav className={`step-nav${entered && stepNav.visible ? ' is-visible' : ''}`} aria-label="上一步、下一步"><button type="button" className="step-nav-button is-previous" onClick={() => stepNavRef.current?.previous()} aria-label="上一步"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6" /></svg><span>上一步</span></button><button type="button" className="step-nav-button is-next" disabled={stepNav.index >= stepNav.total - 1} onClick={() => stepNavRef.current?.next()} aria-label="下一步"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg><span>下一步</span></button></nav><MemoryContribution standalone /><FeedbackSurvey /></main>;
+  return <main inert={!entered} aria-hidden={entered ? 'false' : 'true'}><section id="chapter-1" ref={sectionRef} className="story" data-selected-settlement={selectedSettlement?.id ?? ''} aria-label="南澳地圖動畫"><div ref={stageRef} className="stage"><div ref={mapRef} className="map" aria-label="南澳地理位置互動地圖" /><img ref={photoRef} className="ruiyan-photo" src="/images/瑞岩部落.jpg" alt="" draggable="false" /><p ref={photoCreditRef} className="ruiyan-photo-credit">照片：<a href="https://tcmb.culture.tw/zh-tw/detail?indexCode=Culture_Place&amp;id=620185" target="_blank" rel="noopener noreferrer">舊瑞岩</a>／CC BY 3.0 TW／原住民族委員會原住民族文化發展中心 @ 國家文化記憶庫</p><StoryCaptions captionsRef={captionsRef} /><p ref={scrollCueRef} className="scroll-cue" aria-hidden="true"><GestureHint type="tap">按右下角的「下一步」，開始參觀</GestureHint></p><OldSettlementCard image={OLD_SETTLEMENT_IMAGES[selectedSettlement?.id]} settlement={selectedSettlement} open={Boolean(selectedSettlement)} onClose={() => clearSelectionRef.current()} /><ContinuationOverlay overlayRef={continuationRef} onMode={value => modernRef.current?.setView(value)} /><KnowledgeGraphOverlay graphRef={graphRef} /><MemoryMapOverlay overlayRef={memoryRef} /><MemoryFeaturedStories overlayRef={featuredRef} /><ExplorationMapOverlay overlayRef={explorationMapRef} /><MemoryStoryCard memory={selectedMemory} open={Boolean(selectedMemory)} onClose={() => { memoryMarkersRef.current.forEach(({ element }) => element.classList.remove('is-selected')); selectedMemoryRef.current = null; setSelectedMemory(null); }} /></div></section><p className={`entry-cue${entryCue ? ' is-visible' : ''}`} aria-hidden="true"><GestureHint type="tap">按右下角的「下一步」繼續</GestureHint></p><nav className={`step-nav${entered ? ' is-visible' : ''}`} aria-label="上一步、下一步"><button type="button" className="step-nav-button is-previous" disabled={stepNav.index <= 0} onClick={() => stepNavRef.current?.previous()} aria-label="上一步"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6" /></svg><span>上一步</span></button><button type="button" className="step-nav-button is-next" disabled={stepNav.index >= stepNav.total - 1} onClick={() => stepNavRef.current?.next()} aria-label="下一步"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg><span>下一步</span></button></nav><MemoryContribution standalone /><FeedbackSurvey /></main>;
 }
