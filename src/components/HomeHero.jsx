@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import GestureHint from './GestureHint.jsx';
 
 const TRANSITION_MS = 1950;
 
@@ -30,6 +31,7 @@ export default function HomeHero({ onEnterComplete }) {
           <h1 id="home-title"><span>沿著遷徙的足跡，</span><span>走進南澳泰雅族的故事</span></h1>
           <p className="home-hero-intro">從山中的舊部落出發，<br />走進遷徙、聚落與生活記憶交織的南澳。</p>
           <a className="home-hero-cta" href="#chapter-1" onClick={enterMuseum}>進入虛擬博物館 <span aria-hidden="true">→</span></a>
+          <p className="home-hero-tap-hint"><GestureHint type="tap">點選上方按鈕，開始參觀</GestureHint></p>
         </div>
       </div>
       <div className="home-entry-fog" aria-hidden="true" />

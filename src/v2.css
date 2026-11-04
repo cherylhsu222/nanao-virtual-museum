@@ -1,0 +1,388 @@
+/* v2 修改（2026-11 使用者回饋）。載入順序在最後，用來覆寫 layout-overrides.css。 */
+
+:root {
+  --kg-material: #5f9a4c;
+  --kg-place: #3f82a6;
+  --kg-person: #b85a48;
+  --kg-policy: #2d5a3d;
+  --kg-organization: #26457a;
+}
+
+/* ── 遷徙地圖字卡年份 ───────────────────────────── */
+.story-caption .story-caption-year {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #b98a57;
+  color: #fffaf0;
+  font: 600 13px/1.6 'Noto Sans TC', 'PingFang TC', sans-serif;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+
+/* ── 知識圖譜：節點顏色 ─────────────────────────── */
+.knowledge-node.group-1 i { background: var(--kg-material); box-shadow: 0 0 0 4px rgba(95,154,76,.2); }
+.knowledge-node.group-1 span { color: #476f3a; }
+.knowledge-node.node-place i { background: var(--kg-place); box-shadow: 0 0 0 4px rgba(63,130,166,.2); }
+.knowledge-node.node-person i { background: var(--kg-person); box-shadow: 0 0 0 5px rgba(184,90,72,.18); }
+.knowledge-node.node-policy i { background: var(--kg-policy); box-shadow: 0 0 0 5px rgba(45,90,61,.18); }
+.knowledge-node.node-policy span, .knowledge-node.node-policy small { color: var(--kg-policy); }
+.knowledge-node.node-organization i { background: var(--kg-organization); box-shadow: 0 0 0 5px rgba(38,69,122,.18); }
+.knowledge-node.node-organization span, .knowledge-node.node-organization small { color: var(--kg-organization); }
+.knowledge-graph[data-stage="summary"] .knowledge-edges path.summary-edge-policy { stroke: rgba(45,90,61,.75); }
+.knowledge-graph[data-stage="summary"] .knowledge-edges path.summary-edge-organization { stroke: rgba(38,69,122,.7); }
+
+/* 只有目前打開字卡的那個節點（預設節點）發亮：外圈呼吸光暈，其他節點維持原樣 */
+.knowledge-node i { position: relative; transition: transform .2s ease; }
+.knowledge-node i::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+.knowledge-node.group-1 i::after { color: var(--kg-material); }
+.knowledge-node.node-place i::after { color: var(--kg-place); }
+.knowledge-node.node-person i::after { color: var(--kg-person); }
+.knowledge-node.node-policy i::after { color: var(--kg-policy); }
+.knowledge-node.node-organization i::after { color: var(--kg-organization); }
+.knowledge-node.is-selected:not(.node-core) i { transform: scale(1.4); }
+.knowledge-node.is-selected:not(.node-core) i::after { animation: kg-halo 2.2s ease-out infinite; }
+.knowledge-node:hover i { transform: scale(1.35); }
+@keyframes kg-halo {
+  0% { transform: scale(.6); opacity: .75; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .knowledge-node i::after { animation: none !important; opacity: .5; } }
+
+/* 目前打開字卡的節點：加一圈脈動，提示「可以點」 */
+.knowledge-node.is-selected span { font-weight: 700; }
+
+/* ── 知識圖譜：左上角層級（逐層出現、舊層變淡） ───────────── */
+.graph-layer-label,
+.graph-place-layer-label,
+.graph-people-layer-label,
+.graph-policy-layer-label,
+.graph-organization-layer-label { display: none !important; }
+
+.graph-layer-panel {
+  position: absolute;
+  left: 5vw;
+  top: 11vh;
+  z-index: 5;
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s ease;
+}
+.knowledge-graph:is([data-stage="materials"], [data-stage="places"], [data-stage="people"], [data-stage="policy"], [data-stage="organizations"]) .graph-layer-panel { opacity: 1; visibility: visible; }
+.graph-layer-stack {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  color: #2f3d33;
+  font: 500 17px/1.45 'Noto Serif TC', 'Songti TC', serif;
+  letter-spacing: .1em;
+}
+.graph-layer-stack li { transition: opacity .45s ease, font-size .3s ease, color .3s ease; }
+.graph-layer-stack li.is-upcoming { display: none; }
+.graph-layer-stack li.is-past { opacity: .32; }
+.graph-layer-stack li.is-current {
+  opacity: 1;
+  font-size: 24px;
+  font-weight: 700;
+  color: #22352a;
+  padding-left: 12px;
+  border-left: 3px solid #b98a57;
+}
+
+/* ── 知識圖譜：全部節點頁的顏色圖例 ───────────────── */
+.graph-legend {
+  position: absolute;
+  left: 5vw;
+  top: 11vh;
+  z-index: 5;
+  margin: 0;
+  padding: 12px 16px;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  background: rgba(248,245,237,.88);
+  border: 1px solid rgba(67,83,72,.12);
+  border-radius: 10px;
+  color: #2f3d33;
+  font: 500 15px/1.5 'Noto Sans TC', 'PingFang TC', sans-serif;
+  letter-spacing: .06em;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s ease;
+}
+.knowledge-graph[data-stage="summary"] .graph-legend { opacity: 1; visibility: visible; }
+.graph-legend li { display: flex; align-items: center; gap: 10px; }
+.graph-legend i { width: 12px; height: 12px; border-radius: 50%; }
+.graph-legend .legend-material i { background: var(--kg-material); }
+.graph-legend .legend-place i { background: var(--kg-place); }
+.graph-legend .legend-person i { background: var(--kg-person); }
+.graph-legend .legend-policy i { background: var(--kg-policy); }
+.graph-legend .legend-organization i { background: var(--kg-organization); }
+
+/* 字卡底部的提示：每一層都提醒「其他發亮的節點也能點」 */
+.knowledge-card-hint { display: block; margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(185,138,87,.4); }
+.knowledge-card-hint .gesture-hint { color: #8a5f33; font-size: 12px; font-weight: 600; letter-spacing: .06em; }
+.knowledge-card-hint .gesture-icon { width: 20px; height: 20px; }
+.knowledge-card[aria-hidden="false"] { border-color: rgba(185,138,87,.45); }
+.knowledge-graph[data-stage="summary"] .knowledge-card[aria-hidden="false"] { border-color: rgba(185,138,87,.5); }
+
+/* ── 南澳記憶庫：放大的故事卡（右側） ──────────────── */
+.memory-story-card {
+  top: 96px;
+  right: 32px;
+  bottom: auto;
+  grid-template-columns: 1fr;
+  gap: 0;
+  width: min(440px, 34vw);
+  max-height: calc(100vh - 210px);
+  padding: 0;
+  overflow: hidden auto;
+  border-radius: 14px;
+  transform: translateX(12px);
+}
+.memory-story-card[aria-hidden="false"] { transform: translateX(0); }
+.memory-story-image { width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 0; }
+.memory-story-content { padding: 18px 22px 22px; }
+.memory-story-kicker { font-size: 12px; }
+.memory-story-card h3 { font-size: 22px; }
+.memory-story-location { font-size: 13px; }
+.memory-story-info { max-height: none; overflow: visible; font-size: 15px; line-height: 1.8; }
+.memory-story-close {
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(248,246,238,.92) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+/* ── 南澳記憶庫：57 則照片的蜂巢排列 ───────────────── */
+/* 原本的 position: relative 會蓋掉 MapLibre 的 absolute，讓每個點被前一個點往下推 */
+.memory-marker { position: absolute; top: 0; left: 0; }
+.memory-thumb { width: 44px; height: 44px; }
+.memory-leader {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--leader-length, 0);
+  height: 1px;
+  background: rgba(67,83,72,.42);
+  transform-origin: 0 50%;
+  transform: rotate(var(--leader-angle, 0));
+  opacity: 0;
+  pointer-events: none;
+}
+.memory-leader::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: -2.5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6c7b6f;
+}
+.memory-marker.has-leader .memory-leader { opacity: calc(var(--memory-reveal, 0) * .9); }
+.memory-offscreen-arrow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: none;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  color: #6f4b28;
+  font: 700 12px/18px sans-serif;
+  font-style: normal;
+  text-align: center;
+  transform: rotate(var(--offscreen-angle, 0)) translateX(32px);
+  pointer-events: none;
+}
+.memory-marker.is-offscreen .memory-offscreen-arrow { display: block; }
+.memory-marker.is-offscreen .memory-thumb { border-style: dashed; border-color: rgba(111,75,40,.6); }
+.memory-marker.is-selected { z-index: 20; }
+.memory-marker.is-selected .memory-thumb { border-color: #b98a57; box-shadow: 0 0 0 3px rgba(185,138,87,.35), 0 7px 16px rgba(50,60,50,.18); }
+
+@media (max-width: 700px) {
+  .memory-story-card { top: auto; left: 12px; right: 12px; bottom: 84px; width: auto; max-height: 52vh; }
+  .graph-layer-panel, .graph-legend { left: 16px; top: 64px; }
+  .graph-layer-stack { font-size: 14px; }
+  .graph-layer-panel { gap: 10px; }
+  .graph-layer-stack li.is-current { font-size: 18px; }
+}
+
+/* ── 操作提示：手勢動畫 ────────────────────────── */
+.gesture-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #435348;
+  font: 500 14px/1.4 'Noto Sans TC', 'PingFang TC', sans-serif;
+  letter-spacing: .1em;
+}
+.gesture-icons { display: inline-flex; flex: none; }
+.gesture-icon { width: 28px; height: 28px; }
+.gesture-icon svg { width: 100%; height: 100%; display: block; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.is-tap .gesture-hand { animation: gesture-tap 1.4s ease-in-out infinite; }
+/* 手指朝下，指向下方的選項 */
+.is-tap-down .gesture-hand { animation: gesture-point-down 1.4s ease-in-out infinite; }
+.is-tap-down .gesture-hand svg { transform: scaleY(-1); }
+.is-tap-down .gesture-icon { width: 30px; height: 30px; }
+/* 電腦：滑鼠滾輪往下轉；手機：手指往上滑 */
+.gesture-mouse-wheel { animation: gesture-wheel 1.5s ease-in-out infinite; stroke-width: 2.2; }
+.gesture-mouse-arrow { animation: gesture-arrow 1.5s ease-in-out infinite; stroke-width: 2; }
+@keyframes gesture-arrow { 0%, 100% { transform: translateY(-1px); opacity: .45; } 50% { transform: translateY(1.5px); opacity: 1; } }
+.is-scroll .gesture-swipe { display: none; animation: gesture-swipe 1.7s ease-in-out infinite; }
+@media (hover: none) and (pointer: coarse) {
+  .is-scroll .gesture-mouse { display: none; }
+  .is-scroll .gesture-swipe { display: block; }
+}
+@keyframes gesture-wheel {
+  0% { transform: translateY(-1px); opacity: 0; }
+  25% { opacity: 1; }
+  80% { transform: translateY(5px); opacity: 0; }
+  100% { transform: translateY(5px); opacity: 0; }
+}
+@keyframes gesture-swipe {
+  0% { transform: translateY(10px); opacity: 0; }
+  20% { opacity: 1; }
+  70% { transform: translateY(-10px); opacity: 1; }
+  100% { transform: translateY(-14px); opacity: 0; }
+}
+@keyframes gesture-tap {
+  0%, 100% { transform: translateY(0) scale(1); }
+  45% { transform: translateY(3px) scale(.9); }
+}
+@keyframes gesture-point-down {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(5px); }
+}
+@media (prefers-reduced-motion: reduce) { .gesture-icon, .gesture-mouse-wheel { animation: none !important; } }
+
+/* 開場往下滑提示：換成手勢 */
+.scroll-cue { flex-direction: row; gap: 10px; padding: 10px 20px; }
+.scroll-cue > span { animation: none; font-size: inherit; }
+
+/* 從問答頁跳到知識圖譜／記憶庫時的提示 */
+.entry-cue {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  z-index: 30;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: rgba(248,245,237,.92);
+  box-shadow: 0 3px 12px rgba(52,72,61,.12);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s ease, visibility .4s ease;
+}
+.entry-cue.is-visible { opacity: 1; visibility: visible; }
+
+/* 首頁「進入虛擬博物館」與問答頁的點選提示 */
+.home-hero-tap-hint { margin: 14px 0 0; color: #3f5147; opacity: .85; }
+.opening-question-choices > p { display: inline-flex; align-items: center; gap: 10px; }
+
+/* ── 上一步／下一步（右下角兩顆圓形箭頭） ───────────── */
+.step-nav {
+  position: fixed;
+  right: clamp(18px, 2.4vw, 36px);
+  bottom: clamp(18px, 3vh, 32px);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity .35s ease, transform .35s ease, visibility .35s ease;
+}
+.step-nav.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.step-nav-button {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1px;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(67,83,72,.22);
+  background: rgba(248,245,237,.94);
+  color: #34433a;
+  box-shadow: 0 6px 18px rgba(40,55,45,.12);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+.step-nav-button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.step-nav-button span { font: 500 11px/1.2 'Noto Sans TC', 'PingFang TC', sans-serif; letter-spacing: .08em; }
+.step-nav-button.is-next { background: #435348; border-color: #435348; color: #fbf8ee; }
+.step-nav-button:hover:not(:disabled), .step-nav-button:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(40,55,45,.18); }
+.step-nav-button.is-next:hover:not(:disabled) { background: #34433a; }
+.step-nav-button.is-next:not(:disabled) svg { animation: step-nav-nudge 1.8s ease-in-out infinite; }
+.step-nav-button:disabled { opacity: .35; cursor: default; box-shadow: none; }
+@keyframes step-nav-nudge { 0%, 100% { transform: translateY(-1px); } 50% { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .step-nav-button svg { animation: none !important; } }
+
+/* 右下角讓給上下步按鈕：知識圖譜的「進入知識圖譜探索」往左移 */
+body.has-step-nav .graph-summary-cta { right: 124px; }
+
+/* ── 首頁與問答頁：螢幕不夠高時可以上下捲動 ─────────── */
+/* 首頁改成固定在最上層、自己可以捲動的一層；背後的博物館仍然鎖住不動。 */
+.home-hero-slot {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  height: auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* 進場動畫淡出時，底下要是空白紙色，不能露出後面的地圖 */
+  background: var(--paper);
+}
+.home-hero { height: auto; min-height: max(100%, 720px); }
+@media (max-width: 700px) { .home-hero { min-height: max(100%, 640px); } }
+.opening-questions { overflow-y: auto; overscroll-behavior: contain; }
+
+/* 記憶庫標題往下讓開「返回首頁」按鈕 */
+.memory-map-heading { top: 82px; }
+
+/* ── 手機版調整 ─────────────────────────────── */
+@media (max-width: 700px) {
+  .step-nav { right: 12px; bottom: 14px; gap: 8px; }
+  .step-nav-button { width: 52px; height: 52px; }
+  .step-nav-button svg { width: 18px; height: 18px; }
+  .step-nav-button span { font-size: 10px; }
+  .entry-cue { bottom: 136px; }
+  body.has-step-nav .graph-summary-cta { right: 76px; left: auto; bottom: 14px; padding: 8px 12px; font-size: 14px; }
+  body.has-step-nav .graph-summary-cta small { display: none; }
+  body.has-step-nav .knowledge-graph[data-stage="summary"] .graph-summary-caption { display: none; }
+  .knowledge-graph[data-stage="summary"] .knowledge-card { bottom: 76px; }
+  .knowledge-graph .knowledge-card { top: auto; left: 12px; right: 76px; bottom: 132px; width: auto; max-width: none; max-height: 28vh; overflow: auto; }
+  .graph-legend { grid-auto-flow: column; gap: 10px; top: 64px; padding: 8px 12px; font-size: 12px; }
+  .graph-legend li { gap: 5px; }
+  .memory-story-card { left: 12px; right: 76px; bottom: 14px; max-height: 46vh; }
+  .memory-story-image { aspect-ratio: 16 / 9; }
+  .memory-story-content { padding: 12px 16px 16px; }
+  .memory-story-card h3 { font-size: 18px; }
+  .memory-story-info { font-size: 14px; }
+}

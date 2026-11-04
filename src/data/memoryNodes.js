@@ -1,6 +1,6 @@
-import memoryOverview from './memory-overview.json';
+import memoryArchive from './memory-archive.json';
 
-// The overview deliberately shows thirty source-backed memories from distinct
-// Nanao landmarks so the map remains readable. The complete approved archive
-// stays in memory-archive.json for the later story-selection scene.
-export const memoryNodes = memoryOverview;
+// v2 shows every approved memory (57). The overview camera stays on 南澳; the
+// few memories outside it (南投、花蓮) are pinned to the map edge instead.
+export const memoryNodes = memoryArchive;
+export const DEFAULT_MEMORY_TITLE = '武塔泰雅家屋共作假期';

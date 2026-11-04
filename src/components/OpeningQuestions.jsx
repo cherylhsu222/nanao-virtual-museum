@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import GestureHint from './GestureHint.jsx';
 
 const choices = [
   { label: '我第一次認識南澳泰雅族', exhibit: '南澳遷徙地圖', tone: 'migration', screen: 0 },
@@ -26,7 +27,7 @@ export default function OpeningQuestions({ onContinue, onHome }) {
       <div className="opening-question-final">
         <h1 id="opening-question-title">而你，對這裡知道多少？</h1>
         <div className="opening-question-choices" inert={!choicesReady} aria-hidden={!choicesReady}>
-          <p>先選一個最接近你的答案</p>
+          <p><GestureHint type="tap-down">點選下方一個最接近你的答案</GestureHint></p>
           <div className="opening-question-choice-list">
             {choices.map(({ label, exhibit, tone, screen }) => <button key={label} type="button" className={`is-${tone}`} aria-label={`${label}（前往${exhibit}）`} onClick={() => onContinue(screen)}><span className="choice-label">{label}</span><span className="choice-exhibit" aria-hidden="true">前往：{exhibit} →</span></button>)}
           </div>

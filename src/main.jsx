@@ -7,6 +7,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import './styles.css';
 import './layout-overrides.css';
 import './home.css';
+import './v2.css';
 
 function MuseumApp() {
   const [enteredMuseum, setEnteredMuseum] = useState(false);

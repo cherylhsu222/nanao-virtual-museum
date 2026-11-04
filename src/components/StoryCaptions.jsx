@@ -6,6 +6,7 @@ import { storyCaptions } from '../data/storyCaptions.js';
 export default function StoryCaptions({ captionsRef }) {
   return <div ref={captionsRef} className="story-captions" aria-hidden="true">
     {storyCaptions.map((caption, i) => <div key={i} className="story-caption">
+      {caption.year && <span className="story-caption-year">{caption.year}</span>}
       {caption.text.map((paragraph, j) => <p key={j}>{paragraph.split('\n').map((line, k) => <span key={k}>{line}</span>)}</p>)}
     </div>)}
   </div>;

@@ -1,8 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import GestureHint from './GestureHint.jsx';
 import { knowledgeNodes, knowledgeEdges, farmerNodes, policyIds, organizationIds } from '../data/knowledgeGraph.js';
+
+// 每一層先打開一張代表字卡，讓觀眾知道節點可以點選。
+const defaultCardByStage = {
+  materials: '青剛櫟',
+  places: '金洋村',
+  people: '范守臣',
+  policy: '林下經濟政策發布',
+  organizations: '段木香菇巴萊（Papak Khoni Balay）評鑑競賽',
+  summary: '豊添福',
+};
+const layerSteps = [
+  { stage: 'materials', label: '第一層｜木材' },
+  { stage: 'places', label: '第二層｜聚落' },
+  { stage: 'people', label: '第三層｜菇農' },
+  { stage: 'policy', label: '第四層｜政策' },
+  { stage: 'organizations', label: '第五層｜組織' },
+];
+const legendItems = [
+  { key: 'material', label: '木材' },
+  { key: 'place', label: '聚落' },
+  { key: 'person', label: '菇農' },
+  { key: 'policy', label: '政策' },
+  { key: 'organization', label: '組織' },
+];
 
 export default function KnowledgeGraphOverlay({ graphRef }) {
   const [selected, setSelected] = useState(null);
+  const [stage, setStage] = useState('intro');
+  useEffect(() => {
+    const element = graphRef.current;
+    if (!element) return undefined;
+    let current = null;
+    const sync = () => {
+      const next = element.dataset.stage || 'intro';
+      if (next === current) return;
+      current = next;
+      setStage(next);
+      setSelected(defaultCardByStage[next] ?? null);
+    };
+    const observer = new MutationObserver(sync);
+    observer.observe(element, { attributes: true, attributeFilter: ['data-stage'] });
+    sync();
+    return () => observer.disconnect();
+  }, [graphRef]);
+  const currentLayer = layerSteps.findIndex(step => step.stage === stage);
 const materialIds = ['杜英', '青剛櫟', '赤楊', '楓香'];
 const placeIds = ['金洋村', '金岳村', '武塔村', '澳花村', '碧候村', '南澳村', '東岳村'];
 const placePositions = {
@@ -19,18 +62,19 @@ const policyPositions = {
   天然林全面禁伐政策: [76, 24],
 };
 const policyRevealStart = {
-  林下經濟政策發布: .12,
+  林下經濟政策發布: .02,
   天然林全面禁伐政策: .56,
 };
 const organizationPositions = {
   南澳鄉公所: [18, 34],
-  台灣世界展望會: [88, 18],
+  台灣世界展望會: [68, 20], // v2：原本 [88, 18] 會被右上角字卡蓋住
   '段木香菇巴萊（Papak Khoni Balay）評鑑競賽': [50, 10],
   南澳鄉香菇產銷班第一班: [88, 82],
   農業部農業試驗所: [14, 60],
   谷久牧: [68, 88],
 };
-const organizationRevealStart = Object.fromEntries(organizationIds.map((id, index) => [id, .10 + index * .14]));
+const organizationRevealOrder = ['段木香菇巴萊（Papak Khoni Balay）評鑑競賽', ...organizationIds.filter(id => id !== '段木香菇巴萊（Papak Khoni Balay）評鑑競賽')];
+const organizationRevealStart = Object.fromEntries(organizationRevealOrder.map((id, index) => [id, .02 + index * .14]));
 const rawSummaryPositionById = Object.fromEntries([
   // Summary scene: an editorial orbit around the core, with loose group
   // arcs instead of a rigid grid.
@@ -38,7 +82,7 @@ const rawSummaryPositionById = Object.fromEntries([
   ...placeIds.map((id, i) => [id, [[82, 31], [88, 45], [86, 60], [79, 73], [55, 83], [72, 52], [78, 38]][i]]),
   ...peopleIds.map((id, i) => [id, [[13, 31], [13, 48], [15, 66], [21, 70], [29, 76], [21, 38], [30, 61], [35, 68], [39, 75]][i]]),
   ...policyIds.map((id, i) => [id, [[40, 35], [61, 35]][i]]),
-  ...organizationIds.map((id, i) => [id, [[23, 25], [35, 14], [62, 12], [80, 23], [70, 37], [17, 39]][i]]),
+  ...organizationIds.map((id, i) => [id, [[23, 25], [35, 14], [62, 12], [70, 24], [70, 37], [17, 39]][i]]),
 ]);
 const summaryPositionById = Object.fromEntries(Object.entries(rawSummaryPositionById));
 const fullGraphUrl = 'https://jtchung2005.github.io/nanao/?mg=' + encodeURIComponent('人物,政府機關,非營利組織,私人企業,大學,空間,事件,物件,產業,行動/活動,族群,群體,在地學校') + '&mr=' + encodeURIComponent('人地關係,空間關係,人際關係,活動/行動參與,物件關聯,社會關聯,組織關聯,事地關係,產業關聯,政策推動,健康議題關係') + '&years=1868-2026';
@@ -133,22 +177,25 @@ const placeDescriptions = {
       })}
       {/* 菇農層改用分散節點呈現；聚落關係保留在資訊卡，不再用線干擾畫面。 */}
     </svg>
-    {visibleNodes.map(n => <button key={n.id} type="button" className={`knowledge-node group-${n.group} node-${n.type === 'core' ? 'core' : 'support'}${placeIds.includes(n.id) ? ' node-place' : ''}${peopleIds.includes(n.id) ? ' node-person' : ''}${policyIds.includes(n.id) ? ' node-policy' : ''}${organizationIds.includes(n.id) ? ' node-organization' : ''}${n.id === '金洋村' ? ' node-place-primary' : ''}`} style={{ left: `${n.x}%`, top: `${n.y}%`, '--summary-left': `${summaryPositionById[n.id]?.[0] ?? n.x}%`, '--summary-top': `${summaryPositionById[n.id]?.[1] ?? n.y}%`, '--node-start': n.revealStart, '--people-start': n.peopleRevealStart, '--policy-start': n.policyRevealStart, '--organization-start': n.organizationRevealStart }} onClick={() => setSelected(selected === n.id ? null : n.id)} aria-label={`${n.id}｜${organizationIds.includes(n.id) ? '組織' : policyIds.includes(n.id) ? '政策' : peopleIds.includes(n.id) ? '菇農' : n.type}`}>
+    {visibleNodes.map(n => <button key={n.id} type="button" className={`knowledge-node group-${n.group} node-${n.type === 'core' ? 'core' : 'support'}${placeIds.includes(n.id) ? ' node-place' : ''}${peopleIds.includes(n.id) ? ' node-person' : ''}${policyIds.includes(n.id) ? ' node-policy' : ''}${organizationIds.includes(n.id) ? ' node-organization' : ''}${n.id === '金洋村' ? ' node-place-primary' : ''}${selected === n.id ? ' is-selected' : ''}`} style={{ left: `${n.x}%`, top: `${n.y}%`, '--summary-left': `${summaryPositionById[n.id]?.[0] ?? n.x}%`, '--summary-top': `${summaryPositionById[n.id]?.[1] ?? n.y}%`, '--node-start': n.revealStart, '--people-start': n.peopleRevealStart, '--policy-start': n.policyRevealStart, '--organization-start': n.organizationRevealStart }} onClick={() => setSelected(selected === n.id ? null : n.id)} aria-label={`${n.id}｜${organizationIds.includes(n.id) ? '組織' : policyIds.includes(n.id) ? '政策' : peopleIds.includes(n.id) ? '菇農' : n.type}`}>
       <i /> <span>{n.id}</span><small>{peopleIds.includes(n.id) ? '菇農' : n.type}</small>
     </button>)}
     <div className="graph-intro" aria-live="polite">
       <p className="graph-intro-lead"><span className="graph-intro-line">了解了南澳泰雅族的遷徙與聚落之後，</span><br /><span className="graph-intro-line">接下來，我們從一項貼近生活的產業出發，</span><br /><span className="graph-intro-line">看看南澳的人、地方與生活是如何彼此連結的</span></p>
       <p className="graph-intro-anchor">其中，最具代表性的產業之一，<br />就是 <strong>段木香菇</strong></p>
     </div>
-    <div className="graph-layer-label">第一層｜木材</div>
-    <div className="graph-place-layer-label">第二層｜聚落</div>
-    <div className="graph-people-layer-label">第三層｜菇農</div>
-    <div className="graph-policy-layer-label">第四層｜政策</div>
-    <div className="graph-organization-layer-label">第五層｜組織</div>
+    <div className="graph-layer-panel">
+      <ol className="graph-layer-stack" aria-label="知識圖譜層級">
+        {layerSteps.map((step, index) => <li key={step.stage} className={index === currentLayer ? 'is-current' : index < currentLayer ? 'is-past' : 'is-upcoming'} aria-current={index === currentLayer ? 'step' : undefined}>{step.label}</li>)}
+      </ol>
+    </div>
+    <ul className="graph-legend" aria-label="節點顏色說明">
+      {legendItems.map(item => <li key={item.key} className={`legend-${item.key}`}><i aria-hidden="true" />{item.label}</li>)}
+    </ul>
     <p className="graph-people-caption">從段木到一朵香菇<br />背後有著一群長年在南澳耕作的菇農</p>
     <p className="graph-summary-caption">段木香菇，只是理解南澳的一個入口<br />在它背後，還有更多人、地方與生活之間的連結<br />想看更多，可以進入完整的知識圖譜探索</p>
     <div className="knowledge-caption"><p className="caption-materials">種植段木香菇<br />得先找到適合它生長的木材</p><p className="caption-places">香菇不只生長在段木上<br />也與南澳不同聚落的生活緊密相連</p><p className="caption-people" aria-hidden="true" /><p className="caption-policy">隨著政策的推動與產業的發展<br />段木香菇逐漸成為南澳的地方特色</p><p className="caption-organization">一朵香菇從種植到走向市場<br />背後還有著南澳社群的支持</p></div>
     <a className="graph-summary-cta" href={fullGraphUrl} target="_blank" rel="noreferrer"><small>想看更多南澳的關係？</small><span>進入知識圖譜探索 →</span></a>
-    <div className="knowledge-card" aria-hidden={!selected}>{selected ? <><button type="button" onClick={() => setSelected(null)} aria-label="關閉節點資訊">×</button><b>{selected}</b><small>{node(selected).type === 'core' ? 'core' : <>{peopleIds.includes(selected) ? '菇農｜' : `${node(selected).type}｜`}{selectedEdge?.label ?? ''}</>}</small>{peopleIds.includes(selected) ? <small>所在聚落｜{peoplePlace[selected]}</small> : null}<p>{placeDescriptions[selected] ?? node(selected).info}</p></> : null}</div>
+    <div className="knowledge-card" aria-hidden={!selected}>{selected ? <><button type="button" onClick={() => setSelected(null)} aria-label="關閉節點資訊">×</button><b>{selected}</b><small>{node(selected).type === 'core' ? 'core' : <>{peopleIds.includes(selected) ? '菇農｜' : `${node(selected).type}｜`}{selectedEdge?.label ?? ''}</>}</small>{peopleIds.includes(selected) ? <small>所在聚落｜{peoplePlace[selected]}</small> : null}<p>{placeDescriptions[selected] ?? node(selected).info}</p><span className="knowledge-card-hint"><GestureHint type="tap">點選其他節點，看看更多介紹</GestureHint></span></> : null}</div>
   </div>;
 }

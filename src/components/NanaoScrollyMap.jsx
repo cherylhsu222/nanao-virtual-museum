@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import * as maplibregl from 'maplibre-gl';
 // ?worker&url bundles the worker together with maplibre-gl-shared.mjs, which
 // a plain ?url copy leaves behind (the map stays blank in production builds).
@@ -29,18 +29,21 @@ import MemoryMapOverlay from './MemoryMapOverlay.jsx';
 import MemoryFeaturedStories from './MemoryFeaturedStories.jsx';
 import MemoryStoryCard from './MemoryStoryCard.jsx';
 import MemoryContribution from './MemoryContribution.jsx';
-import { memoryNodes } from '../data/memoryNodes.js';
+import { memoryNodes, DEFAULT_MEMORY_TITLE } from '../data/memoryNodes.js';
 import ExplorationMapOverlay from './ExplorationMapOverlay.jsx';
 import FeedbackSurvey from './FeedbackSurvey.jsx';
+import GestureHint from './GestureHint.jsx';
+import { createStepNavigation } from '../lib/stepNavigation.js';
 
 const oldSettlements = prepareOldSettlements(places);
 
-// Candidate positions used by the collision-aware photo layout. The actual
-// screen coordinates are calculated from MapLibre at runtime, so this remains
-// stable across viewport sizes and zoom levels.
-// Keep the visual spread vertical. Horizontal movement can push a coastal
-// photo into the ocean even when its source coordinate is on land.
-const memoryLayoutCandidates = [[0, 0], [0, -28], [0, 28], [0, -56], [0, 56], [0, -84], [0, 84], [0, -112], [0, 112]];
+// Memory photos snap to a honeycomb grid in screen space so 57 thumbnails
+// never overlap. Moving east is penalised because the coast is on that side.
+const MEMORY_GRID = 50;
+const MEMORY_EAST_PENALTY = 2.4;
+// Space kept free for the enlarged story card on the right.
+const memoryCardReserve = () => (window.innerWidth <= 700 ? 0 : Math.min(440, window.innerWidth * .34) + 56);
+const memoryCoreNodes = memoryNodes.filter(memory => memory.coordinates[0] >= 121.5 && memory.coordinates[1] >= 24.3);
 
 gsap.registerPlugin(ScrollTrigger);
 maplibregl.setWorkerUrl(maplibreWorkerUrl);
@@ -77,6 +80,9 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
   const explorationMapRef = useRef();
   const scrollCueRef = useRef();
   const routeMarkersRef = useRef([]);
+  const stepNavRef = useRef(null);
+  const [stepNav, setStepNav] = useState({ visible: false, index: -1, total: 0 });
+  const [entryCue, setEntryCue] = useState(false);
   const callbacks = useRef({ onComplete, onProgress, onOldSettlementSelect });
   callbacks.current = { onComplete, onProgress, onOldSettlementSelect };
 
@@ -85,9 +91,20 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
     const frame = window.requestAnimationFrame(() => {
       ScrollTrigger.refresh();
       jumpToScreenRef.current(entryScreen);
+      stepNavRef.current?.report();
+      // 從問答頁直接跳進知識圖譜或記憶庫時，提示可以往下滑。
+      setEntryCue(entryScreen > 0);
     });
     return () => window.cancelAnimationFrame(frame);
   }, [entered, entryScreen]);
+
+  useEffect(() => {
+    if (!entryCue) return undefined;
+    const startY = window.scrollY;
+    const hide = () => { if (Math.abs(window.scrollY - startY) > 30) setEntryCue(false); };
+    window.addEventListener('scroll', hide, { passive: true });
+    return () => window.removeEventListener('scroll', hide);
+  }, [entryCue]);
 
   useLayoutEffect(() => {
     let map;
@@ -100,6 +117,7 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
     let routeHeadMarker;
     let memoryMarkers = [];
     let memoryLayoutKey = '';
+    let memoryDefaultShown = false;
     let modern;
     const oldMarkers = [];
     let selected = null;
@@ -143,27 +161,52 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
     function layoutMemoryMarkers() {
       if (!map || !memoryMarkers.length) return;
       const center = map.getCenter();
-      const key = `${map.getZoom().toFixed(3)}:${center.lng.toFixed(4)}:${center.lat.toFixed(4)}:${mapRef.current.clientWidth}:${mapRef.current.clientHeight}`;
+      const width = mapRef.current.clientWidth;
+      const height = mapRef.current.clientHeight;
+      // A projected reference point changes whenever the map is resized, even
+      // when zoom and centre stay the same.
+      const reference = map.project(memoryNodes[0].coordinates);
+      const key = `${map.getZoom().toFixed(3)}:${center.lng.toFixed(4)}:${center.lat.toFixed(4)}:${width}:${height}:${reference.x.toFixed(1)}:${reference.y.toFixed(1)}`;
       if (key === memoryLayoutKey) return;
       memoryLayoutKey = key;
-      const minDistance = 54;
-      const placed = [];
-      memoryMarkers.forEach(({ button, memory }) => {
-        const base = map.project(memory.coordinates);
-        const fits = candidate => {
-          const position = [base.x + candidate[0], base.y + candidate[1]];
-          return placed.every(previous => Math.hypot(position[0] - previous[0], position[1] - previous[1]) >= minDistance);
-        };
-        const selected = memoryLayoutCandidates.find(fits) ?? memoryLayoutCandidates.reduce((best, candidate) => {
-          const position = [base.x + candidate[0], base.y + candidate[1]];
-          const clearance = Math.min(...placed.map(previous => Math.hypot(position[0] - previous[0], position[1] - previous[1])));
-          const bestPosition = [base.x + best[0], base.y + best[1]];
-          const bestClearance = Math.min(...placed.map(previous => Math.hypot(bestPosition[0] - previous[0], bestPosition[1] - previous[1])));
-          return clearance > bestClearance ? candidate : best;
+      // Safe area: below the heading, above the caption/step buttons, left of the story card.
+      const safe = { left: 40, top: width <= 700 ? 120 : 150, right: width - memoryCardReserve() - 24, bottom: height - (width <= 700 ? 160 : 210) };
+      const rowHeight = MEMORY_GRID * Math.sqrt(3) / 2;
+      const slots = [];
+      for (let row = 0, y = safe.top; y <= safe.bottom; row += 1, y += rowHeight) {
+        for (let x = safe.left + (row % 2 ? MEMORY_GRID / 2 : 0); x <= safe.right; x += MEMORY_GRID) slots.push({ x, y, used: false });
+      }
+      const items = memoryMarkers.map(entry => {
+        const base = map.project(entry.memory.coordinates);
+        const clamped = { x: Math.max(safe.left, Math.min(safe.right, base.x)), y: Math.max(safe.top, Math.min(safe.bottom, base.y)) };
+        return { ...entry, base, clamped, offscreen: clamped.x !== base.x || clamped.y !== base.y };
+      });
+      // Crowded places first, so they claim the slots closest to their real spot.
+      const crowd = item => items.filter(other => Math.hypot(other.clamped.x - item.clamped.x, other.clamped.y - item.clamped.y) < MEMORY_GRID * 2).length;
+      items.map(item => ({ item, crowd: crowd(item) })).sort((a, b) => b.crowd - a.crowd).forEach(({ item }) => {
+        let best = null;
+        let bestCost = Infinity;
+        slots.forEach(slot => {
+          if (slot.used) return;
+          const dx = slot.x - item.clamped.x;
+          const dy = slot.y - item.clamped.y;
+          const cost = Math.hypot(dx > 0 ? dx * MEMORY_EAST_PENALTY : dx, dy);
+          if (cost < bestCost) { bestCost = cost; best = slot; }
         });
-        button.style.setProperty('--memory-offset-x', `${selected[0]}px`);
-        button.style.setProperty('--memory-offset-y', `${selected[1]}px`);
-        placed.push([base.x + selected[0], base.y + selected[1]]);
+        if (!best) return;
+        best.used = true;
+        const offsetX = best.x - item.base.x;
+        const offsetY = best.y - item.base.y;
+        const leader = Math.hypot(offsetX, offsetY);
+        item.button.style.setProperty('--memory-offset-x', `${offsetX}px`);
+        item.button.style.setProperty('--memory-offset-y', `${offsetY}px`);
+        item.element.classList.toggle('is-offscreen', item.offscreen);
+        item.element.classList.toggle('has-leader', !item.offscreen && leader > 26);
+        item.element.style.setProperty('--leader-length', `${leader}px`);
+        item.element.style.setProperty('--leader-angle', `${Math.atan2(offsetY, offsetX)}rad`);
+        // Off-screen memories point back toward where they really are.
+        const arrowAngle = Math.atan2(item.base.y - best.y, item.base.x - best.x);
+        item.element.style.setProperty('--offscreen-angle', `${arrowAngle}rad`);
       });
     }
 
@@ -505,6 +548,17 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
           element.style.setProperty('--memory-reveal', reveal);
         });
         if (memoryProgress <= .001) memoryMarkers.forEach(({ element }) => element.classList.remove('is-selected'));
+        if (memoryProgress <= .001 || featuredProgress > .001) memoryDefaultShown = false;
+        if (!memoryDefaultShown && memoryReveal > .9 && featuredProgress <= .001) {
+          memoryDefaultShown = true;
+          const preset = memoryMarkers.find(({ memory }) => memory.title === DEFAULT_MEMORY_TITLE);
+          if (preset && !selectedMemoryRef.current) {
+            memoryMarkers.forEach(({ element }) => element.classList.remove('is-selected'));
+            preset.element.classList.add('is-selected');
+            selectedMemoryRef.current = preset.memory;
+            setSelectedMemory(preset.memory);
+          }
+        }
         if (memoryProgress > 0 || featuredProgress > 0) {
           layoutMemoryMarkers();
           oldMarkers.forEach(({ element, button }) => {
@@ -551,8 +605,9 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
         zoom: Math.min(fitted.zoom, migrationCameraC.zoom + sizeCorrection - .45),
       };
       const memoryBounds = new maplibregl.LngLatBounds();
-      memoryNodes.forEach(memory => memoryBounds.extend(memory.coordinates));
-      const memoryFitted = map.cameraForBounds(memoryBounds, { padding: { top: 108, right: 96, bottom: 176, left: 96 }, bearing: 0, pitch: 0 });
+      memoryCoreNodes.forEach(memory => memoryBounds.extend(memory.coordinates));
+      // Push the memory field left so the story card on the right has room.
+      const memoryFitted = map.cameraForBounds(memoryBounds, { padding: { top: 150, right: memoryCardReserve() + 120, bottom: 170, left: 160 }, bearing: 0, pitch: 0 });
       if (memoryFitted) memoryCamera = {
         center: [memoryFitted.center.lng, memoryFitted.center.lat],
         zoom: Math.min(memoryFitted.zoom, 11.2),
@@ -680,7 +735,11 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
           button.style.setProperty('--memory-offset-x', '0px');
           button.style.setProperty('--memory-offset-y', '0px');
           button.setAttribute('aria-label', `${memory.title}｜${memory.location}`);
-          button.innerHTML = `<img src="${memory.image}" alt="" loading="lazy"><span class="memory-tooltip"><b>${memory.title}</b><small>${memory.location}</small></span>`;
+          button.innerHTML = `<img src="${memory.image}" alt="" loading="lazy"><span class="memory-tooltip"><b>${memory.title}</b><small>${memory.location}</small></span><em class="memory-offscreen-arrow" aria-hidden="true">➜</em>`;
+          const leader = document.createElement('i');
+          leader.className = 'memory-leader';
+          leader.setAttribute('aria-hidden', 'true');
+          element.append(leader);
           button.addEventListener('click', () => {
             memoryMarkers.forEach(candidate => candidate.element.classList.remove('is-selected'));
             element.classList.add('is-selected');
@@ -728,6 +787,13 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
       tween.progress(progress);
       render();
     };
+    const screenToY = screen => {
+      const trigger = tween.scrollTrigger;
+      return trigger.start + (trigger.end - trigger.start) * Math.max(0, Math.min(1, screen / TOTAL_SCREENS));
+    };
+    const stepNavigation = createStepNavigation({ screenToY, onChange: setStepNav });
+    stepNavRef.current = stepNavigation;
+    if (import.meta.env.DEV) window.__nanaoJump = screen => jumpToScreenRef.current(screen);
     const observer = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(resize); });
     observer.observe(mapRef.current);
     render();
@@ -735,6 +801,8 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
       disposed = true;
       cancelAnimationFrame(raf);
       observer.disconnect();
+      stepNavigation.destroy();
+      stepNavRef.current = null;
       tween.scrollTrigger?.kill();
       tween.kill();
       clearTimeout(mapTimer);
@@ -753,5 +821,5 @@ export default function NanaoScrollyMap({ onComplete, onProgress, onOldSettlemen
     };
   }, []);
 
-  return <main inert={!entered} aria-hidden={entered ? 'false' : 'true'}><section id="chapter-1" ref={sectionRef} className="story" data-selected-settlement={selectedSettlement?.id ?? ''} aria-label="南澳地圖動畫"><div ref={stageRef} className="stage"><div ref={mapRef} className="map" aria-label="南澳地理位置互動地圖" /><img ref={photoRef} className="ruiyan-photo" src="/images/瑞岩部落.jpg" alt="" draggable="false" /><p ref={photoCreditRef} className="ruiyan-photo-credit">照片：<a href="https://tcmb.culture.tw/zh-tw/detail?indexCode=Culture_Place&amp;id=620185" target="_blank" rel="noopener noreferrer">舊瑞岩</a>／CC BY 3.0 TW／原住民族委員會原住民族文化發展中心 @ 國家文化記憶庫</p><StoryCaptions captionsRef={captionsRef} /><p ref={scrollCueRef} className="scroll-cue" aria-hidden="true">往下滑，探索更多故事<span>↓</span></p><OldSettlementCard image={OLD_SETTLEMENT_IMAGES[selectedSettlement?.id]} settlement={selectedSettlement} open={Boolean(selectedSettlement)} onClose={() => clearSelectionRef.current()} /><ContinuationOverlay overlayRef={continuationRef} onMode={value => modernRef.current?.setView(value)} /><KnowledgeGraphOverlay graphRef={graphRef} /><MemoryMapOverlay overlayRef={memoryRef} /><MemoryFeaturedStories overlayRef={featuredRef} /><ExplorationMapOverlay overlayRef={explorationMapRef} /><MemoryStoryCard memory={selectedMemory} open={Boolean(selectedMemory)} onClose={() => { memoryMarkersRef.current.forEach(({ element }) => element.classList.remove('is-selected')); selectedMemoryRef.current = null; setSelectedMemory(null); }} /></div></section><MemoryContribution standalone /><FeedbackSurvey /></main>;
+  return <main inert={!entered} aria-hidden={entered ? 'false' : 'true'}><section id="chapter-1" ref={sectionRef} className="story" data-selected-settlement={selectedSettlement?.id ?? ''} aria-label="南澳地圖動畫"><div ref={stageRef} className="stage"><div ref={mapRef} className="map" aria-label="南澳地理位置互動地圖" /><img ref={photoRef} className="ruiyan-photo" src="/images/瑞岩部落.jpg" alt="" draggable="false" /><p ref={photoCreditRef} className="ruiyan-photo-credit">照片：<a href="https://tcmb.culture.tw/zh-tw/detail?indexCode=Culture_Place&amp;id=620185" target="_blank" rel="noopener noreferrer">舊瑞岩</a>／CC BY 3.0 TW／原住民族委員會原住民族文化發展中心 @ 國家文化記憶庫</p><StoryCaptions captionsRef={captionsRef} /><p ref={scrollCueRef} className="scroll-cue" aria-hidden="true"><GestureHint type="scroll">往下捲動，探索更多故事</GestureHint></p><OldSettlementCard image={OLD_SETTLEMENT_IMAGES[selectedSettlement?.id]} settlement={selectedSettlement} open={Boolean(selectedSettlement)} onClose={() => clearSelectionRef.current()} /><ContinuationOverlay overlayRef={continuationRef} onMode={value => modernRef.current?.setView(value)} /><KnowledgeGraphOverlay graphRef={graphRef} /><MemoryMapOverlay overlayRef={memoryRef} /><MemoryFeaturedStories overlayRef={featuredRef} /><ExplorationMapOverlay overlayRef={explorationMapRef} /><MemoryStoryCard memory={selectedMemory} open={Boolean(selectedMemory)} onClose={() => { memoryMarkersRef.current.forEach(({ element }) => element.classList.remove('is-selected')); selectedMemoryRef.current = null; setSelectedMemory(null); }} /></div></section><p className={`entry-cue${entryCue ? ' is-visible' : ''}`} aria-hidden="true"><GestureHint type="scroll">往下捲動，或按右下角的「下一步」</GestureHint></p><nav className={`step-nav${entered && stepNav.visible ? ' is-visible' : ''}`} aria-label="上一步、下一步"><button type="button" className="step-nav-button is-previous" onClick={() => stepNavRef.current?.previous()} aria-label="上一步"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6" /></svg><span>上一步</span></button><button type="button" className="step-nav-button is-next" disabled={stepNav.index >= stepNav.total - 1} onClick={() => stepNavRef.current?.next()} aria-label="下一步"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg><span>下一步</span></button></nav><MemoryContribution standalone /><FeedbackSurvey /></main>;
 }
