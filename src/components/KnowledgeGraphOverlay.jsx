@@ -46,6 +46,12 @@ export default function KnowledgeGraphOverlay({ graphRef }) {
     return () => observer.disconnect();
   }, [graphRef]);
   const currentLayer = layerSteps.findIndex(step => step.stage === stage);
+  // 還沒輪到的層級，節點雖然看不見卻仍在畫面上，會擋住下面的節點
+  // （例如「林下經濟政策發布」疊在「杜英」上）。所以只讓已出現的層級可以點。
+  const stageOrder = ['intro', 'focus', 'core', 'materials', 'places', 'people', 'policy', 'organizations', 'summary'];
+  const stageIndex = Math.max(0, stageOrder.indexOf(stage));
+  const nodeStageIndex = n => stageOrder.indexOf(n.type === 'core' ? 'intro' : materialIds.includes(n.id) ? 'materials' : placeIds.includes(n.id) ? 'places' : peopleIds.includes(n.id) ? 'people' : policyIds.includes(n.id) ? 'policy' : 'organizations');
+  const isReachable = n => nodeStageIndex(n) <= stageIndex;
 const materialIds = ['杜英', '青剛櫟', '赤楊', '楓香'];
 const placeIds = ['金洋村', '金岳村', '武塔村', '澳花村', '碧候村', '南澳村', '東岳村'];
 const placePositions = {
@@ -177,7 +183,7 @@ const placeDescriptions = {
       })}
       {/* 菇農層改用分散節點呈現；聚落關係保留在資訊卡，不再用線干擾畫面。 */}
     </svg>
-    {visibleNodes.map(n => <button key={n.id} type="button" className={`knowledge-node group-${n.group} node-${n.type === 'core' ? 'core' : 'support'}${placeIds.includes(n.id) ? ' node-place' : ''}${peopleIds.includes(n.id) ? ' node-person' : ''}${policyIds.includes(n.id) ? ' node-policy' : ''}${organizationIds.includes(n.id) ? ' node-organization' : ''}${n.id === '金洋村' ? ' node-place-primary' : ''}${selected === n.id ? ' is-selected' : ''}`} style={{ left: `${n.x}%`, top: `${n.y}%`, '--summary-left': `${summaryPositionById[n.id]?.[0] ?? n.x}%`, '--summary-top': `${summaryPositionById[n.id]?.[1] ?? n.y}%`, '--node-start': n.revealStart, '--people-start': n.peopleRevealStart, '--policy-start': n.policyRevealStart, '--organization-start': n.organizationRevealStart }} onClick={() => setSelected(selected === n.id ? null : n.id)} aria-label={`${n.id}｜${organizationIds.includes(n.id) ? '組織' : policyIds.includes(n.id) ? '政策' : peopleIds.includes(n.id) ? '菇農' : n.type}`}>
+    {visibleNodes.map(n => <button key={n.id} type="button" className={`knowledge-node group-${n.group} node-${n.type === 'core' ? 'core' : 'support'}${placeIds.includes(n.id) ? ' node-place' : ''}${peopleIds.includes(n.id) ? ' node-person' : ''}${policyIds.includes(n.id) ? ' node-policy' : ''}${organizationIds.includes(n.id) ? ' node-organization' : ''}${n.id === '金洋村' ? ' node-place-primary' : ''}${selected === n.id ? ' is-selected' : ''}`} style={{ left: `${n.x}%`, top: `${n.y}%`, '--summary-left': `${summaryPositionById[n.id]?.[0] ?? n.x}%`, '--summary-top': `${summaryPositionById[n.id]?.[1] ?? n.y}%`, '--node-start': n.revealStart, '--people-start': n.peopleRevealStart, '--policy-start': n.policyRevealStart, '--organization-start': n.organizationRevealStart, pointerEvents: isReachable(n) ? undefined : 'none' }} tabIndex={isReachable(n) ? undefined : -1} onClick={() => setSelected(selected === n.id ? null : n.id)} aria-label={`${n.id}｜${organizationIds.includes(n.id) ? '組織' : policyIds.includes(n.id) ? '政策' : peopleIds.includes(n.id) ? '菇農' : n.type}`}>
       <i /> <span>{n.id}</span><small>{peopleIds.includes(n.id) ? '菇農' : n.type}</small>
     </button>)}
     <div className="graph-intro" aria-live="polite">
