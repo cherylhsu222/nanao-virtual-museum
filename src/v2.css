@@ -386,3 +386,70 @@ body.has-step-nav .graph-summary-cta { right: 124px; }
   .memory-story-card h3 { font-size: 18px; }
   .memory-story-info { font-size: 14px; }
 }
+
+/* ── 右上角章節目錄（漢堡選單） ───────────────────── */
+.chapter-menu {
+  position: fixed;
+  top: clamp(14px, 2.4vh, 24px);
+  right: clamp(18px, 2.4vw, 36px);
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+.chapter-menu.is-visible { opacity: 1; visibility: visible; }
+.chapter-menu-toggle {
+  display: grid;
+  place-content: center;
+  gap: 5px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid rgba(67,83,72,.22);
+  border-radius: 50%;
+  background: rgba(251,248,238,.94);
+  box-shadow: 0 6px 18px rgba(40,55,45,.12);
+  cursor: pointer;
+  transition: background .2s ease, box-shadow .2s ease;
+}
+.chapter-menu-toggle span { display: block; width: 18px; height: 2px; border-radius: 2px; background: #435348; transition: transform .25s ease, opacity .2s ease; }
+.chapter-menu-toggle:hover, .chapter-menu-toggle:focus-visible { box-shadow: 0 10px 24px rgba(40,55,45,.18); }
+.chapter-menu.is-open .chapter-menu-toggle { background: #435348; border-color: #435348; }
+.chapter-menu.is-open .chapter-menu-toggle span { background: #fbf8ee; }
+.chapter-menu.is-open .chapter-menu-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.chapter-menu.is-open .chapter-menu-toggle span:nth-child(2) { opacity: 0; }
+.chapter-menu.is-open .chapter-menu-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.chapter-menu-list {
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  min-width: 220px;
+  background: rgba(251,248,238,.98);
+  border: 1px solid rgba(67,83,72,.16);
+  border-radius: 14px;
+  box-shadow: 0 14px 32px rgba(40,55,45,.16);
+}
+.chapter-menu-list[hidden] { display: none; }
+.chapter-menu-list button {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #435348;
+  font: 500 15px/1.3 'Noto Sans TC', 'PingFang TC', sans-serif;
+  letter-spacing: .06em;
+  text-align: left;
+  cursor: pointer;
+}
+.chapter-menu-list button small { font-size: 11px; opacity: .55; letter-spacing: .1em; }
+.chapter-menu-list button:hover, .chapter-menu-list button:focus-visible { background: #e6ebe2; }
+/* 桌機版知識圖譜字卡原本貼在右上角，往下讓出選單按鈕的位置 */
+@media (min-width: 641px) { .knowledge-graph .knowledge-card { top: 88px; } }
